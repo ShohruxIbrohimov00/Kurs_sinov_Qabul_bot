@@ -406,7 +406,7 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"📚 Kitoblar: {recommended_course.get('description', 'Ma\'lumot kiritilmagan')}\n\n"
         f"📞 *Ro'yxatdan o'tish uchun: +998507551023*\n"
         f"*@Shoxrux_Ibrohimov*"
-    ),
+    )
     
     try:
         if update.callback_query:
