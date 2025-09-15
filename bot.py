@@ -7,8 +7,9 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes, MessageHandler, filters
 from telegram.error import BadRequest
 
+
 # Konfiguratsiya va global o'zgaruvchilar
-BOT_TOKEN = "8282849464:AAGNi-LbOqkx8x9OXpsF0qN_NpWeJCUSqSQ"
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 DATA_DIR = "data"
 COURSES_FILE = os.path.join(DATA_DIR, "courses.json")
 QUESTIONS_FILE = os.path.join(DATA_DIR, "questions.json")
