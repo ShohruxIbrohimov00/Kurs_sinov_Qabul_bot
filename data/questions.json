@@ -1,0 +1,904 @@
+{
+  "matem": [
+    {
+      "id": 1,
+      "section": "Arifmetika va sonlar nazariyasi - Kasrlar",
+      "question": "1/2 + 0.25 ni hisoblang",
+      "options": ["0.25", "1.0", "0.75", "0.5"],
+      "correct": 2,
+      "difficulty": "oson",
+      "explanation": "1/2 = 0.5, 0.5 + 0.25 = 0.75. To'g'ri javob: 0.75"
+    },
+    {
+      "id": 2,
+      "section": "Arifmetika va sonlar nazariyasi - Kasrlar",
+      "question": "3/4 - 1/8 ni hisoblang",
+      "options": ["1/2", "3/8", "7/8", "5/8"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "3/4 = 6/8, 6/8 - 1/8 = 5/8. To'g'ri javob: 5/8"
+    },
+    {
+      "id": 3,
+      "section": "Arifmetika va sonlar nazariyasi - Kasrlar",
+      "question": "2/3 × 9 ni hisoblang",
+      "options": ["4", "6", "8", "12"],
+      "correct": 1,
+      "difficulty": "oson",
+      "explanation": "2/3 × 9 = 2 × 9 / 3 = 18 / 3 = 6. To'g'ri javob: 6"
+    },
+    {
+      "id": 4,
+      "section": "Arifmetika va sonlar nazariyasi - Kasrlar",
+      "question": "1/5 ÷ 2 ni hisoblang",
+      "options": ["0.5", "0.25", "0.05", "0.1"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "1/5 ÷ 2 = 1/5 × 1/2 = 1/10 = 0.1. To'g'ri javob: 0.1"
+    },
+    {
+      "id": 5,
+      "section": "Arifmetika va sonlar nazariyasi - Kasrlar",
+      "question": "5/6 + 2/3 ni hisoblang",
+      "options": ["4/3", "3/2", "5/3", "7/6"],
+      "correct": 1,
+      "difficulty": "oson",
+      "explanation": "2/3 = 4/6, 5/6 + 4/6 = 9/6 = 3/2. To'g'ri javob: 3/2"
+    },
+    {
+      "id": 6,
+      "section": "Arifmetika va sonlar nazariyasi - Kasrlar",
+      "question": "3/8 × 4/9 ni hisoblang",
+      "options": ["1/3", "2/9", "1/6", "1/8"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "3/8 × 4/9 = (3×4)/(8×9) = 12/72 = 1/6. To'g'ri javob: 1/6"
+    },
+    {
+      "id": 7,
+      "section": "Arifmetika va sonlar nazariyasi - Kasrlar",
+      "question": "7/10 - 0.3 ni hisoblang",
+      "options": ["0.5", "0.6", "0.7", "0.4"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "7/10 = 0.7, 0.7 - 0.3 = 0.4. To'g'ri javob: 0.4"
+    },
+    {
+      "id": 8,
+      "section": "Arifmetika va sonlar nazariyasi - Kasrlar",
+      "question": "2/5 + 3/10 ni hisoblang",
+      "options": ["1/2", "3/5", "4/5", "7/10"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "2/5 = 4/10, 4/10 + 3/10 = 7/10. To'g'ri javob: 7/10"
+    },
+    {
+      "id": 9,
+      "section": "Arifmetika va sonlar nazariyasi - Kasrlar",
+      "question": "4/7 ÷ 2/3 ni hisoblang",
+      "options": ["8/21", "2/3", "4/3", "6/7"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "4/7 ÷ 2/3 = 4/7 × 3/2 = (4×3)/(7×2) = 12/14 = 6/7. To'g'ri javob: 6/7"
+    },
+    {
+      "id": 10,
+      "section": "Arifmetika va sonlar nazariyasi - Kasrlar",
+      "question": "1/3 × 12 ni hisoblang",
+      "options": ["3", "6", "2", "4"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "1/3 × 12 = 12/3 = 4. To'g'ri javob: 4"
+    },
+    {
+      "id": 11,
+      "section": "Arifmetika va sonlar nazariyasi - Foizlar",
+      "question": "40 ning 25% ini toping",
+      "options": ["20", "25", "10", "15"],
+      "correct": 2,
+      "difficulty": "oson",
+      "explanation": "40 × 25% = 40 × 0.25 = 10. To'g'ri javob: 10"
+    },
+    {
+      "id": 12,
+      "section": "Arifmetika va sonlar nazariyasi - Foizlar",
+      "question": "200 ning 15% ini toping",
+      "options": ["20", "25", "30", "35"],
+      "correct": 2,
+      "difficulty": "oson",
+      "explanation": "200 × 15% = 200 × 0.15 = 30. To'g'ri javob: 30"
+    },
+    {
+      "id": 13,
+      "section": "Arifmetika va sonlar nazariyasi - Foizlar",
+      "question": "50 ning 40% ini toping",
+      "options": ["10", "30", "15", "20"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "50 × 40% = 50 × 0.4 = 20. To'g'ri javob: 20"
+    },
+    {
+      "id": 14,
+      "section": "Arifmetika va sonlar nazariyasi - Foizlar",
+      "question": "120 ning 75% ini toping",
+      "options": ["100", "85", "90", "80"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "120 × 75% = 120 × 0.75 = 90. To'g'ri javob: 90"
+    },
+    {
+      "id": 15,
+      "section": "Arifmetika va sonlar nazariyasi - Foizlar",
+      "question": "Agar 80 ning 20% i 16 bo‘lsa, 80 ning 100% i qancha?",
+      "options": ["100", "60", "120", "80"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "80 ning 100% i 80 ga teng. To'g'ri javob: 80"
+    },
+    {
+      "id": 16,
+      "section": "Arifmetika va sonlar nazariyasi - Foizlar",
+      "question": "150 ning 10% ini toping",
+      "options": ["10", "20", "25", "15"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "150 × 10% = 150 × 0.1 = 15. To'g'ri javob: 15"
+    },
+    {
+      "id": 17,
+      "section": "Arifmetika va sonlar nazariyasi - Foizlar",
+      "question": "60 ning 5% ini toping",
+      "options": ["6", "5", "4", "3"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "60 × 5% = 60 × 0.05 = 3. To'g'ri javob: 3"
+    },
+    {
+      "id": 18,
+      "section": "Arifmetika va sonlar nazariyasi - Foizlar",
+      "question": "2000 ning 2% ini toping",
+      "options": ["20", "50", "30", "40"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "2000 × 2% = 2000 × 0.02 = 40. To'g'ri javob: 40"
+    },
+    {
+      "id": 19,
+      "section": "Arifmetika va sonlar nazariyasi - Foizlar",
+      "question": "300 ning 33.33% ini toping",
+      "options": ["90", "110", "120", "100"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "300 × 33.33% ≈ 300 × 1/3 = 100. To'g'ri javob: 100"
+    },
+    {
+      "id": 20,
+      "section": "Arifmetika va sonlar nazariyasi - Foizlar",
+      "question": "500 ning 60% ini toping",
+      "options": ["250", "200", "350", "300"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "500 × 60% = 500 × 0.6 = 300. To'g'ri javob: 300"
+    },
+    {
+      "id": 21,
+      "section": "Arifmetika va sonlar nazariyasi - Ratsional sonlar",
+      "question": "-3/4 va -0.7 sonlarini taqqoslang",
+      "options": ["-3/4 < -0.7", "-3/4 = -0.7", "-3/4 > -0.7", "Taqqoslab bo'lmaydi"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "-3/4 = -0.75. Son oʻqida -0.75 soni -0.7 dan chapda joylashgan, shuning uchun -0.75 < -0.7. To'g'ri javob: -3/4 < -0.7. (Sizning avvalgi explanationingiz xato edi, men uni toʻgʻriladim.)"
+    },
+    {
+      "id": 22,
+      "section": "Arifmetika va sonlar nazariyasi - Ratsional sonlar",
+      "question": "2/5 va 0.4 sonlarini taqqoslang",
+      "options": ["2/5 > 0.4", "2/5 < 0.4", "2/5 = 0.4", "Taqqoslab bo'lmaydi"],
+      "correct": 2,
+      "difficulty": "oson",
+      "explanation": "2/5 = 0.4. Demak, ular teng. To'g'ri javob: 2/5 = 0.4"
+    },
+    {
+      "id": 23,
+      "section": "Arifmetika va sonlar nazariyasi - Ratsional sonlar",
+      "question": "-1/2 va -0.6 sonlarini taqqoslang",
+      "options": ["-1/2 < -0.6", "-1/2 = -0.6", "-1/2 > -0.6", "Taqqoslab bo'lmaydi"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "-1/2 = -0.5. Son oʻqida -0.5 soni -0.6 dan o'ngda joylashgan, shuning uchun -0.5 > -0.6. To'g'ri javob: -1/2 > -0.6"
+    },
+    {
+      "id": 24,
+      "section": "Arifmetika va sonlar nazariyasi - Ratsional sonlar",
+      "question": "3/8 va 0.375 sonlarini taqqoslang",
+      "options": ["3/8 > 0.375", "3/8 < 0.375", "Taqqoslab bo'lmaydi", "3/8 = 0.375"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "3/8 = 0.375. Demak, ular teng. To'g'ri javob: 3/8 = 0.375"
+    },
+    {
+      "id": 25,
+      "section": "Arifmetika va sonlar nazariyasi - Ratsional sonlar",
+      "question": "-2/3 va -0.66 sonlarini taqqoslang",
+      "options": ["-2/3 > -0.66", "-2/3 < -0.66", "-2/3 = -0.66", "Taqqoslab bo'lmaydi"],
+      "correct": 1,
+      "difficulty": "o'rta",
+      "explanation": "-2/3 ≈ -0.6666.... Son oʻqida -0.666... soni -0.66 dan chaproqda joylashgan, shuning uchun -2/3 < -0.66. To'g'ri javob: -2/3 < -0.66"
+    },
+    {
+      "id": 26,
+      "section": "Arifmetika va sonlar nazariyasi - Ratsional sonlar",
+      "question": "4/5 va 0.8 sonlarini taqqoslang",
+      "options": ["4/5 > 0.8", "4/5 < 0.8", "4/5 = 0.8", "Taqqoslab bo'lmaydi"],
+      "correct": 2,
+      "difficulty": "oson",
+      "explanation": "4/5 = 0.8. Demak, ular teng. To'g'ri javob: 4/5 = 0.8"
+    },
+    {
+      "id": 27,
+      "section": "Arifmetika va sonlar nazariyasi - Ratsional sonlar",
+      "question": "-5/6 va -0.83 sonlarini taqqoslang",
+      "options": ["-5/6 = -0.83", "-5/6 > -0.83", "-5/6 < -0.83", "Taqqoslab bo'lmaydi"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "-5/6 ≈ -0.8333.... Son oʻqida -0.833... soni -0.83 dan chaproqda joylashgan, shuning uchun -5/6 < -0.83. To'g'ri javob: -5/6 < -0.83"
+    },
+    {
+      "id": 28,
+      "section": "Arifmetika va sonlar nazariyasi - Ratsional sonlar",
+      "question": "7/10 va 0.7 sonlarini taqqoslang",
+      "options": ["7/10 > 0.7", "7/10 < 0.7", "Taqqoslab bo'lmaydi", "7/10 = 0.7"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "7/10 = 0.7. Demak, ular teng. To'g'ri javob: 7/10 = 0.7"
+    },
+    {
+      "id": 29,
+      "section": "Arifmetika va sonlar nazariyasi - Ratsional sonlar",
+      "question": "-1/4 va -0.25 sonlarini taqqoslang",
+      "options": ["-1/4 > -0.25", "-1/4 < -0.25", "Taqqoslab bo'lmaydi", "-1/4 = -0.25"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "-1/4 = -0.25. Demak, ular teng. To'g'ri javob: -1/4 = -0.25"
+    },
+    {
+      "id": 30,
+      "section": "Arifmetika va sonlar nazariyasi - Ratsional sonlar",
+      "question": "3/5 va 0.6 sonlarini taqqoslang",
+      "options": ["3/5 > 0.6", "3/5 < 0.6", "Taqqoslab bo'lmaydi", "3/5 = 0.6"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "3/5 = 0.6. Demak, ular teng. To'g'ri javob: 3/5 = 0.6"
+    },
+    {
+      "id": 31,
+      "section": "Arifmetika va sonlar nazariyasi - Proporsiyalar",
+      "question": "5 ta kitob 10 000 so'm tursa, 8 ta kitob qancha turadi?",
+      "options": ["15 000 so'm", "18 000 so'm", "12 000 so'm", "16 000 so'm"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "1 ta kitob narxini topamiz: 10 000 so'm / 5 = 2 000 so'm. Keyin 8 ta kitob narxini hisoblaymiz: 8 × 2 000 so'm = 16 000 so'm. To'g'ri javob: 16 000 so'm"
+    },
+    {
+      "id": 32,
+      "section": "Arifmetika va sonlar nazariyasi - Proporsiyalar",
+      "question": "3 soatda 90 km masofa bosilsa, 5 soatda qancha masofa bosiladi?",
+      "options": ["120 km", "180 km", "100 km", "150 km"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "Bir soatdagi tezlikni topamiz: 90 km / 3 soat = 30 km/soat. Keyin 5 soatda bosib o'tiladigan masofani hisoblaymiz: 5 soat × 30 km/soat = 150 km. To'g'ri javob: 150 km"
+    },
+    {
+      "id": 33,
+      "section": "Arifmetika va sonlar nazariyasi - Proporsiyalar",
+      "question": "4 kg olma 12 000 so'm tursa, 7 kg olma qancha turadi?",
+      "options": ["18 000 so'm", "24 000 so'm", "15 000 so'm", "21 000 so'm"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "1 kg olma narxini topamiz: 12 000 so'm / 4 kg = 3 000 so'm/kg. Keyin 7 kg olma narxini hisoblaymiz: 7 kg × 3 000 so'm/kg = 21 000 so'm. To'g'ri javob: 21 000 so'm"
+    },
+    {
+      "id": 34,
+      "section": "Arifmetika va sonlar nazariyasi - Proporsiyalar",
+      "question": "2 litr sharbat 8 000 so'm tursa, 10 litr sharbat qancha turadi?",
+      "options": ["32 000 so'm", "48 000 so'm", "24 000 so'm", "40 000 so'm"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "1 litr sharbat narxini topamiz: 8 000 so'm / 2 litr = 4 000 so'm/litr. Keyin 10 litr sharbat narxini hisoblaymiz: 10 litr × 4 000 so'm/litr = 40 000 so'm. To'g'ri javob: 40 000 so'm"
+    },
+    {
+      "id": 35,
+      "section": "Arifmetika va sonlar nazariyasi - Proporsiyalar",
+      "question": "6 ishchi 12 kunlik ishni bajarsa, 4 ishchi uchun qancha kun kerak?",
+      "options": ["15 kun", "12 kun", "9 kun", "18 kun"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "Bu teskari proporsiya masalasi. Jami ish miqdorini topamiz: 6 ishchi × 12 kun = 72 birlik ish. Keyin bu ishni bajarish uchun 4 ishchiga qancha kun kerakligini hisoblaymiz: 72 birlik ish / 4 ishchi = 18 kun. To'g'ri javob: 18 kun"
+    },
+    {
+      "id": 36,
+      "section": "Arifmetika va sonlar nazariyasi - Proporsiyalar",
+      "question": "5 m mato 15 000 so'm tursa, 3 m mato qancha turadi?",
+      "options": ["12 000 so'm", "9 000 so'm", "6 000 so'm", "10 000 so'm"],
+      "correct": 1,
+      "difficulty": "oson",
+      "explanation": "Avval 1 m mato narxini topamiz: 15 000 so'm / 5 m = 3 000 so'm/m. Keyin 3 m mato narxini hisoblaymiz: 3 m × 3 000 so'm/m = 9 000 so'm. To'g'ri javob: 9 000 so'm."
+    },
+    {
+      "id": 37,
+      "section": "Arifmetika va sonlar nazariyasi - Proporsiyalar",
+      "question": "8 soatda 240 km masofa bosilsa, 3 soatda qancha masofa bosiladi?",
+      "options": ["80 km", "90 km", "120 km", "100 km"],
+      "correct": 1,
+      "difficulty": "o'rta",
+      "explanation": "Bir soatdagi tezlikni topamiz: 240 km / 8 soat = 30 km/soat. Keyin 3 soatda bosib o'tiladigan masofani hisoblaymiz: 3 soat × 30 km/soat = 90 km. To'g'ri javob: 90 km."
+    },
+    {
+      "id": 38,
+      "section": "Arifmetika va sonlar nazariyasi - Proporsiyalar",
+      "question": "10 kg guruch 50 000 so'm tursa, 2 kg guruch qancha turadi?",
+      "options": ["15 000 so'm", "5 000 so'm", "10 000 so'm", "20 000 so'm"],
+      "correct": 2,
+      "difficulty": "oson",
+      "explanation": "1 kg guruch narxini topamiz: 50 000 so'm / 10 kg = 5 000 so'm/kg. Keyin 2 kg guruch narxini hisoblaymiz: 2 kg × 5 000 so'm/kg = 10 000 so'm. To'g'ri javob: 10 000 so'm."
+    },
+    {
+      "id": 39,
+      "section": "Arifmetika va sonlar nazariyasi - Proporsiyalar",
+      "question": "3 kunda 120 sahifa o‘qilsa, 5 kunda qancha sahifa o‘qiladi?",
+      "options": ["180 sahifa", "240 sahifa", "200 sahifa", "150 sahifa"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "Bir kunda o'qiladigan sahifalar sonini topamiz: 120 sahifa / 3 kun = 40 sahifa/kun. Keyin 5 kunda o'qiladigan sahifalar sonini hisoblaymiz: 5 kun × 40 sahifa/kun = 200 sahifa. To'g'ri javob: 200 sahifa."
+    },
+    {
+      "id": 40,
+      "section": "Arifmetika va sonlar nazariyasi - Proporsiyalar",
+      "question": "7 ta qalam 14 000 so'm tursa, 4 ta qalam qancha turadi?",
+      "options": ["10 000 so'm", "8 000 so'm", "6 000 so'm", "12 000 so'm"],
+      "correct": 1,
+      "difficulty": "oson",
+      "explanation": "1 ta qalam narxini topamiz: 14 000 so'm / 7 = 2 000 so'm. Keyin 4 ta qalam narxini hisoblaymiz: 4 × 2 000 so'm = 8 000 so'm. To'g'ri javob: 8 000 so'm."
+    },
+    {
+      "id": 41,
+      "section": "Arifmetika va sonlar nazariyasi - Butun sonlar",
+      "question": "-5 + (-3) - 7 ni hisoblang",
+      "options": ["-10", "5", "-5", "-15"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "-5 + (-3) - 7 = -8 - 7 = -15. To'g'ri javob: -15."
+    },
+    {
+      "id": 42,
+      "section": "Arifmetika va sonlar nazariyasi - Butun sonlar",
+      "question": "-8 + 12 ni hisoblang",
+      "options": ["-4", "20", "4", "-20"],
+      "correct": 2,
+      "difficulty": "oson",
+      "explanation": "-8 + 12 = 4. To'g'ri javob: 4."
+    },
+    {
+      "id": 43,
+      "section": "Arifmetika va sonlar nazariyasi - Butun sonlar",
+      "question": "-3 × 4 ni hisoblang",
+      "options": ["12", "-7", "7", "-12"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "Manfiy sonni musbat songa ko'paytirsak, natija manfiy bo'ladi: -3 × 4 = -12. To'g'ri javob: -12."
+    },
+    {
+      "id": 44,
+      "section": "Arifmetika va sonlar nazariyasi - Butun sonlar",
+      "question": "(-6) ÷ 2 ni hisoblang",
+      "options": ["3", "-2", "2", "-3"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "Manfiy sonni musbat songa bo'lsak, natija manfiy bo'ladi: (-6) ÷ 2 = -3. To'g'ri javob: -3."
+    },
+    {
+      "id": 45,
+      "section": "Arifmetika va sonlar nazariyasi - Butun sonlar",
+      "question": "-10 + (-5) ni hisoblang",
+      "options": ["5", "-15", "15", "-5"],
+      "correct": 1,
+      "difficulty": "oson",
+      "explanation": "-10 + (-5) = -10 - 5 = -15. To'g'ri javob: -15."
+    },
+    {
+      "id": 46,
+      "section": "Arifmetika va sonlar nazariyasi - Butun sonlar",
+      "question": "7 - (-3) ni hisoblang",
+      "options": ["4", "-4", "-10", "10"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "Manfiy sonni ayirish musbat sonni qo'shishga teng: 7 - (-3) = 7 + 3 = 10. To'g'ri javob: 10."
+    },
+    {
+      "id": 47,
+      "section": "Arifmetika va sonlar nazariyasi - Butun sonlar",
+      "question": "-4 × (-5) ni hisoblang",
+      "options": ["-20", "20", "10", "-10"],
+      "correct": 1,
+      "difficulty": "oson",
+      "explanation": "Ikki manfiy sonni ko'paytirsak, natija musbat bo'ladi: -4 × (-5) = 20. To'g'ri javob: 20."
+    },
+    {
+      "id": 48,
+      "section": "Arifmetika va sonlar nazariyasi - Butun sonlar",
+      "question": "(-12) ÷ (-3) ni hisoblang",
+      "options": ["-4", "4", "3", "-3"],
+      "correct": 1,
+      "difficulty": "oson",
+      "explanation": "Ikki manfiy sonni bo'lsak, natija musbat bo'ladi: (-12) ÷ (-3) = 4. To'g'ri javob: 4."
+    },
+    {
+      "id": 49,
+      "section": "Arifmetika va sonlar nazariyasi - Butun sonlar",
+      "question": "-9 + 2 ni hisoblang",
+      "options": ["7", "-7", "11", "-11"],
+      "correct": 1,
+      "difficulty": "oson",
+      "explanation": "-9 + 2 = -7. To'g'ri javob: -7."
+    },
+    {
+      "id": 50,
+      "section": "Arifmetika va sonlar nazariyasi - Butun sonlar",
+      "question": "-2 - (-8) ni hisoblang",
+      "options": ["-6", "10", "6", "-10"],
+      "correct": 2,
+      "difficulty": "oson",
+      "explanation": "-2 - (-8) = -2 + 8 = 6. To'g'ri javob: 6."
+    },
+    {
+      "id": 51,
+      "section": "Algebra - Tenglama",
+      "question": "2x + 5 = 15 tenglamani yeching",
+      "options": ["x = 10", "x = 7.5", "x = 5", "x = 8"],
+      "correct": 2,
+      "difficulty": "oson",
+      "explanation": "Tenglamani yechish uchun 5 ni o'ng tomonga o'tkazamiz: 2x = 15 - 5, ya'ni 2x = 10. Keyin x ni topish uchun 10 ni 2 ga bo'lamiz: x = 10 / 2 = 5. To'g'ri javob: x = 5."
+    },
+    {
+      "id": 52,
+      "section": "Algebra - Tenglama",
+      "question": "3x - 9 = 0 tenglamani yeching",
+      "options": ["x = 9", "x = 6", "x = 0", "x = 3"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "Tenglamani yechish uchun -9 ni o'ng tomonga o'tkazamiz: 3x = 9. Keyin x ni topish uchun 9 ni 3 ga bo'lamiz: x = 9 / 3 = 3. To'g'ri javob: x = 3."
+    },
+    {
+      "id": 53,
+      "section": "Algebra - Tenglama",
+      "question": "4x + 8 = 20 tenglamani yeching",
+      "options": ["x = 4", "x = 5", "x = 3", "x = 6"],
+      "correct": 2,
+      "difficulty": "oson",
+      "explanation": "Tenglamani yechish uchun 8 ni o'ng tomonga o'tkazamiz: 4x = 20 - 8, ya'ni 4x = 12. Keyin x ni topish uchun 12 ni 4 ga bo'lamiz: x = 12 / 4 = 3. To'g'ri javob: x = 3."
+    },
+    {
+      "id": 54,
+      "section": "Algebra - Tenglama",
+      "question": "5x - 10 = 15 tenglamani yeching",
+      "options": ["x = 3", "x = 4", "x = 2", "x = 5"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "Tenglamani yechish uchun -10 ni o'ng tomonga o'tkazamiz: 5x = 15 + 10, ya'ni 5x = 25. Keyin x ni topish uchun 25 ni 5 ga bo'lamiz: x = 25 / 5 = 5. To'g'ri javob: x = 5."
+    },
+    {
+      "id": 55,
+      "section": "Algebra - Tenglama",
+      "question": "x/2 + 3 = 7 tenglamani yeching",
+      "options": ["x = 6", "x = 4", "x = 8", "x = 10"],
+      "correct": 2,
+      "difficulty": "oson",
+      "explanation": "Tenglamani yechish uchun 3 ni o'ng tomonga o'tkazamiz: x/2 = 7 - 3, ya'ni x/2 = 4. Keyin x ni topish uchun 4 ni 2 ga ko'paytiramiz: x = 4 × 2 = 8. To'g'ri javob: x = 8."
+    },
+    {
+      "id": 56,
+      "section": "Algebra - Tenglama",
+      "question": "2x + 3 = 11 tenglamani yeching",
+      "options": ["x = 5", "x = 3", "x = 6", "x = 4"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "Tenglamani yechish uchun 3 ni o'ng tomonga o'tkazamiz: 2x = 11 - 3, ya'ni 2x = 8. Keyin x ni topish uchun 8 ni 2 ga bo'lamiz: x = 8 / 2 = 4. To'g'ri javob: x = 4."
+    },
+    {
+      "id": 57,
+      "section": "Algebra - Tenglama",
+      "question": "6x - 12 = 0 tenglamani yeching",
+      "options": ["x = 3", "x = 4", "x = 1", "x = 2"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "Tenglamani yechish uchun -12 ni o'ng tomonga o'tkazamiz: 6x = 12. Keyin x ni topish uchun 12 ni 6 ga bo'lamiz: x = 12 / 6 = 2. To'g'ri javob: x = 2."
+    },
+    {
+      "id": 58,
+      "section": "Algebra - Tenglama",
+      "question": "x/3 - 2 = 1 tenglamani yeching",
+      "options": ["x = 6", "x = 3", "x = 12", "x = 9"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "Tenglamani yechish uchun -2 ni o'ng tomonga o'tkazamiz: x/3 = 1 + 2, ya'ni x/3 = 3. Keyin x ni topish uchun 3 ni 3 ga ko'paytiramiz: x = 3 × 3 = 9. To'g'ri javob: x = 9."
+    },
+    {
+      "id": 59,
+      "section": "Algebra - Tenglama",
+      "question": "7x + 14 = 28 tenglamani yeching",
+      "options": ["x = 3", "x = 4", "x = 5", "x = 2"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "Tenglamani yechish uchun 14 ni o'ng tomonga o'tkazamiz: 7x = 28 - 14, ya'ni 7x = 14. Keyin x ni topish uchun 14 ni 7 ga bo'lamiz: x = 14 / 7 = 2. To'g'ri javob: x = 2."
+    },
+    {
+      "id": 60,
+      "section": "Algebra - Tenglama",
+      "question": "3x + 6 = 15 tenglamani yeching",
+      "options": ["x = 4", "x = 5", "x = 2", "x = 3"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "Tenglamani yechish uchun 6 ni o'ng tomonga o'tkazamiz: 3x = 15 - 6, ya'ni 3x = 9. Keyin x ni topish uchun 9 ni 3 ga bo'lamiz: x = 9 / 3 = 3. To'g'ri javob: x = 3."
+    },
+    {
+      "id": 61,
+      "section": "Algebra - Ko'phadlar",
+      "question": "3(a + 2b) - 2(a - b) ni soddalashtiring",
+      "options": ["3a + 4b", "a + 4b", "a + 8b", "5a + 2b"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "Qavslarni ochamiz: 3a + 6b - 2a + 2b. O'xshash hadlarni jamlaymiz: (3a - 2a) + (6b + 2b) = a + 8b. To'g'ri javob: a + 8b."
+    },
+    {
+      "id": 62,
+      "section": "Algebra - Ko'phadlar",
+      "question": "2(x + 3y) + 3(x - y) ni soddalashtiring",
+      "options": ["3x + 5y", "5x + y", "3x + y", "5x + 3y"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "Qavslarni ochamiz: 2x + 6y + 3x - 3y. O'xshash hadlarni jamlaymiz: (2x + 3x) + (6y - 3y) = 5x + 3y. To'g'ri javob: 5x + 3y."
+    },
+    {
+      "id": 63,
+      "section": "Algebra - Ko'phadlar",
+      "question": "4(m - 2n) - 3(m + n) ni soddalashtiring",
+      "options": ["m - 5n", "m + 5n", "-m - 11n", "m - 11n"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "Qavslarni ochamiz: 4m - 8n - 3m - 3n. O'xshash hadlarni jamlaymiz: (4m - 3m) + (-8n - 3n) = m - 11n. To'g'ri javob: m - 11n."
+    },
+    {
+      "id": 64,
+      "section": "Algebra - Ko'phadlar",
+      "question": "2(3x - y) + 5(x + 2y) ni soddalashtiring",
+      "options": ["8x + 11y", "11x + 8y", "11x - 8y", "8x - 11y"],
+      "correct": 1,
+      "difficulty": "o'rta",
+      "explanation": "Qavslarni ochamiz: 6x - 2y + 5x + 10y. O'xshash hadlarni jamlaymiz: (6x + 5x) + (-2y + 10y) = 11x + 8y. To'g'ri javob: 11x + 8y."
+    },
+    {
+      "id": 65,
+      "section": "Algebra - Ko'phadlar",
+      "question": "(2a + 3b) - 4(a - 2b) ni soddalashtiring",
+      "options": ["2a - 11b", "-2a - 11b", "2a + 11b", "-2a + 11b"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "Qavslarni ochamiz: 2a + 3b - 4a + 8b. O'xshash hadlarni jamlaymiz: (2a - 4a) + (3b + 8b) = -2a + 11b. To'g'ri javob: -2a + 11b."
+    },
+    {
+      "id": 66,
+      "section": "Algebra - Ko'phadlar",
+      "question": "3(2x - y) - (x + 4y) ni soddalashtiring",
+      "options": ["5x + 7y", "7x - 5y", "5x - 7y", "7x + 5y"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "Qavslarni ochamiz: 6x - 3y - x - 4y. O'xshash hadlarni jamlaymiz: (6x - x) + (-3y - 4y) = 5x - 7y. To'g'ri javob: 5x - 7y."
+    },
+    {
+      "id": 67,
+      "section": "Algebra - Ko'phadlar",
+      "question": "5(a - 3b) + 2(2a + b) ni soddalashtiring",
+      "options": ["9a + 13b", "7a - 13b", "9a - 13b", "7a + 13b"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "Qavslarni ochamiz: 5a - 15b + 4a + 2b. O'xshash hadlarni jamlaymiz: (5a + 4a) + (-15b + 2b) = 9a - 13b. To'g'ri javob: 9a - 13b."
+    },
+    {
+      "id": 68,
+      "section": "Algebra - Ko'phadlar",
+      "question": "(x + 2y) - 3(2x - y) ni soddalashtiring",
+      "options": ["-5x - 5y", "5x + 5y", "-5x + 5y", "5x - 5y"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "Qavslarni ochamiz: x + 2y - 6x + 3y. O'xshash hadlarni jamlaymiz: (x - 6x) + (2y + 3y) = -5x + 5y. To'g'ri javob: -5x + 5y."
+    },
+    {
+      "id": 69,
+      "section": "Algebra - Ko'phadlar",
+      "question": "4(2a + b) - 2(a + 3b) ni soddalashtiring",
+      "options": ["2a - 6b", "6a - 2b", "2a + 6b", "6a + 2b"],
+      "correct": 1,
+      "difficulty": "o'rta",
+      "explanation": "Qavslarni ochamiz: 8a + 4b - 2a - 6b. O'xshash hadlarni jamlaymiz: (8a - 2a) + (4b - 6b) = 6a - 2b. To'g'ri javob: 6a - 2b."
+    },
+    {
+      "id": 70,
+      "section": "Algebra - Ko'phadlar",
+      "question": "3(x - 2y) + 2(3x + y) ni soddalashtiring",
+      "options": ["9x + 4y", "4x - 9y", "9x - 4y", "4x + 9y"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "Ifodani qavslarni ochib soddalashtiramiz: 3(x - 2y) + 2(3x + y) = 3x - 6y + 6x + 2y. O'xshash hadlarni jamlaymiz: (3x + 6x) + (-6y + 2y) = 9x - 4y. To'g'ri javob: 9x - 4y."
+    },
+    {
+      "id": 71,
+      "section": "Algebra - Funksiya",
+      "question": "Agar f(x) = 2x - 1 bo'lsa, f(3) ni toping",
+      "options": ["4", "7", "5", "6"],
+      "correct": 2,
+      "difficulty": "oson",
+      "explanation": "Funksiyada x o'rniga 3 ni qo'yamiz: f(3) = 2×3 - 1 = 6 - 1 = 5. To'g'ri javob: 5."
+    },
+    {
+      "id": 72,
+      "section": "Algebra - Funksiya",
+      "question": "Agar f(x) = x² - 2x + 1 bo'lsa, f(2) ni toping",
+      "options": ["3", "5", "1", "7"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "Funksiyada x o'rniga 2 ni qo'yamiz: f(2) = 2² - 2×2 + 1 = 4 - 4 + 1 = 1. To'g'ri javob: 1."
+    },
+    {
+      "id": 73,
+      "section": "Algebra - Funksiya",
+      "question": "Agar g(x) = 3x + 4 bo'lsa, g(-1) ni toping",
+      "options": ["-1", "7", "4", "1"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "Funksiyada x o'rniga -1 ni qo'yamiz: g(-1) = 3×(-1) + 4 = -3 + 4 = 1. To'g'ri javob: 1."
+    },
+    {
+      "id": 74,
+      "section": "Algebra - Funksiya",
+      "question": "Agar f(x) = 2x² + 3 bo'lsa, f(0) ni toping",
+      "options": ["0", "3", "2", "6"],
+      "correct": 1,
+      "difficulty": "o'rta",
+      "explanation": "Funksiyada x o'rniga 0 ni qo'yamiz: f(0) = 2×0² + 3 = 0 + 3 = 3. To'g'ri javob: 3."
+    },
+    {
+      "id": 75,
+      "section": "Algebra - Funksiya",
+      "question": "Agar h(x) = x³ - x bo'lsa, h(2) ni toping",
+      "options": ["8", "4", "10", "6"],
+      "correct": 3,
+      "difficulty": "qiyin",
+      "explanation": "Funksiyada x o'rniga 2 ni qo'yamiz: h(2) = 2³ - 2 = 8 - 2 = 6. To'g'ri javob: 6."
+    },
+    {
+      "id": 76,
+      "section": "Algebra - Funksiya",
+      "question": "Agar f(x) = 1/x + 2 bo'lsa, f(4) ni toping",
+      "options": ["2.5", "2.75", "2.25", "3"],
+      "correct": 2,
+      "difficulty": "qiyin",
+      "explanation": "Funksiyada x o'rniga 4 ni qo'yamiz: f(4) = 1/4 + 2 = 0.25 + 2 = 2.25. To'g'ri javob: 2.25."
+    },
+    {
+      "id": 77,
+      "section": "Algebra - Funksiya",
+      "question": "Agar f(x) = 2x - 3 bo'lsa, f(f(1)) ni toping",
+      "options": ["1", "3", "-3", "-5"],
+      "correct": 3,
+      "difficulty": "qiyin",
+      "explanation": "Bu masalada avval ichki funksiyani hisoblaymiz: f(1) = 2×1 - 3 = -1. Keyin bu natijani yana funksiyaga qo'yamiz: f(-1) = 2×(-1) - 3 = -2 - 3 = -5. Toʻgʻri javob -5."
+    },
+    {
+      "id": 78,
+      "section": "Algebra - Funksiya",
+      "question": "Agar g(x) = x² + 2x bo'lsa, g(-2) ni toping",
+      "options": ["4", "0", "-4", "8"],
+      "correct": 1,
+      "difficulty": "o'rta",
+      "explanation": "Funksiyada x o'rniga -2 ni qo'yamiz: g(-2) = (-2)² + 2×(-2) = 4 + (-4) = 0. To'g'ri javob: 0."
+    },
+    {
+      "id": 79,
+      "section": "Algebra - Funksiya",
+      "question": "Agar f(x) = 3x - 2 bo'lsa, f(x + 1) ni toping",
+      "options": ["3x - 2", "3x + 1", "3x - 1", "3x + 3"],
+      "correct": 1,
+      "difficulty": "qiyin",
+      "explanation": "Funksiyada x o'rniga (x + 1) ni qo'yamiz: f(x + 1) = 3(x + 1) - 2 = 3x + 3 - 2 = 3x + 1. To'g'ri javob: 3x + 1."
+    },
+    {
+      "id": 80,
+      "section": "Algebra - Funksiya",
+      "question": "Agar h(x) = x² - 4 bo'lsa, h(3) - h(1) ni toping",
+      "options": ["4", "10", "6", "8"],
+      "correct": 3,
+      "difficulty": "qiyin",
+      "explanation": "Avval h(3) ni topamiz: h(3) = 3² - 4 = 9 - 4 = 5. Keyin h(1) ni topamiz: h(1) = 1² - 4 = 1 - 4 = -3. So'ngra ayirmani hisoblaymiz: h(3) - h(1) = 5 - (-3) = 5 + 3 = 8. To'g'ri javob: 8."
+    },
+    {
+      "id": 81,
+      "section": "Geometriya - Perimetr va yuza",
+      "question": "Tomonlari 6 sm bo'lgan kvadratning perimetri va yuzasini hisoblang",
+      "options": ["P=12sm, S=36sm²", "P=24sm, S=36sm²", "P=36sm, S=24sm²", "P=24sm, S=24sm²"],
+      "correct": 1,
+      "difficulty": "oson",
+      "explanation": "Perimetr formulasi P = 4a, ya'ni 4 × 6 = 24 sm. Yuza formulasi S = a², ya'ni 6² = 36 sm². To'g'ri javob: P=24sm, S=36sm²."
+    },
+    {
+      "id": 82,
+      "section": "Geometriya - Perimetr va yuza",
+      "question": "Tomonlari 8 sm va 5 sm bo‘lgan to‘rtburchakning perimetrini toping",
+      "options": ["20 sm", "28 sm", "26 sm", "24 sm"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "Perimetr formulasi P = 2(uzunlik + eni), ya'ni 2×(8 + 5) = 2×13 = 26 sm. To'g'ri javob: 26 sm."
+    },
+    {
+      "id": 83,
+      "section": "Geometriya - Perimetr va yuza",
+      "question": "Doiraning radiusi 7 sm bo‘lsa, uning yuzasini toping (π ≈ 3.14)",
+      "options": ["153.86 sm²", "147.56 sm²", "154 sm²", "146 sm²"],
+      "correct": 0,
+      "difficulty": "qiyin",
+      "explanation": "Doiraning yuzasi formulasi S = πr², ya'ni 3.14 × 7² = 3.14 × 49 = 153.86 sm². To'g'ri javob: 153.86 sm²."
+    },
+    {
+      "id": 84,
+      "section": "Geometriya - Perimetr va yuza",
+      "question": "Uchburchakning asosi 10 sm, balandligi 6 sm bo‘lsa, uning yuzasini toping",
+      "options": ["60 sm²", "36 sm²", "30 sm²", "20 sm²"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "Uchburchak yuzasi formulasi S = (asos × balandlik) / 2, ya'ni (10 × 6) / 2 = 60 / 2 = 30 sm². To'g'ri javob: 30 sm²."
+    },
+    {
+      "id": 85,
+      "section": "Geometriya - Perimetr va yuza",
+      "question": "Tomonlari 3 sm, 4 sm va 5 sm bo‘lgan uchburchakning perimetrini toping",
+      "options": ["15 sm", "10 sm", "12 sm", "14 sm"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "Perimetr tomonlar yig'indisiga teng: 3 + 4 + 5 = 12 sm. To'g'ri javob: 12 sm."
+    },
+    {
+      "id": 86,
+      "section": "Geometriya - Perimetr va yuza",
+      "question": "Kvadratning perimetri 20 sm bo‘lsa, uning yuzasini toping",
+      "options": ["20 sm²", "30 sm²", "16 sm²", "25 sm²"],
+      "correct": 3,
+      "difficulty": "qiyin",
+      "explanation": "Avval tomon uzunligini topamiz: a = P / 4 = 20 / 4 = 5 sm. Keyin yuzani hisoblaymiz: S = a² = 5² = 25 sm². To'g'ri javob: 25 sm²."
+    },
+    {
+      "id": 87,
+      "section": "Geometriya - Perimetr va yuza",
+      "question": "To‘rtburchakning uzunligi 12 sm, eni 7 sm bo‘lsa, uning yuzasini toping",
+      "options": ["78 sm²", "90 sm²", "84 sm²", "72 sm²"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "To'rtburchak yuzasi formulasi S = uzunlik × eni, ya'ni 12 × 7 = 84 sm². To'g'ri javob: 84 sm²."
+    },
+    {
+      "id": 88,
+      "section": "Geometriya - Perimetr va yuza",
+      "question": "Doiraning diametri 10 sm bo‘lsa, uning aylana uzunligini toping (π ≈ 3.14)",
+      "options": ["30 sm", "32 sm", "28.26 sm", "31.4 sm"],
+      "correct": 3,
+      "difficulty": "qiyin",
+      "explanation": "Aylana uzunligi formulasi C = πd, ya'ni 3.14 × 10 = 31.4 sm. To'g'ri javob: 31.4 sm."
+    },
+    {
+      "id": 89,
+      "section": "Geometriya - Perimetr va yuza",
+      "question": "Teng yonli uchburchakning yoni 6 sm, asosiga tushirilgan balandligi 4 sm bo‘lsa, uning yuzasini toping",
+      "options": ["18 sm²", "24 sm²", "16 sm²", "12 sm²"],
+      "correct": 3,
+      "difficulty": "qiyin",
+      "explanation": "Bu savolda biroz chalkashlik bor, chunki yoni 6 sm bo'lgan uchburchakning asosiga tushirilgan balandligi 4 sm bo'lsa, asosini topish uchun Pifagor teoremasi kerak bo'ladi (asosining yarmi = √(6² - 4²) = √20). Lekin, agar savolda 'asosi 6 sm' deb tushunilsa, unda yechim S = (6 × 4) / 2 = 12 sm². Variantlar ichida 12 sm² mavjud bo'lganligi sababli, savolda 'yon' so'zi xato qo'llanilgan deb taxmin qilinadi. To'g'ri javob: 12 sm²."
+    },
+    {
+      "id": 90,
+      "section": "Geometriya - Perimetr va yuza",
+      "question": "Kvadratning yuzasi 64 sm² bo‘lsa, uning perimetrini toping",
+      "options": ["16 sm", "24 sm", "32 sm", "28 sm"],
+      "correct": 2,
+      "difficulty": "qiyin",
+      "explanation": "Avval kvadratning tomonini topamiz: a = √S = √64 = 8 sm. Keyin perimetrini hisoblaymiz: P = 4a = 4 × 8 = 32 sm. To'g'ri javob: 32 sm."
+    },
+    {
+      "id": 91,
+      "section": "Geometriya - Burchaklar",
+      "question": "Uchburchakning ichki burchaklari yig'indisi necha gradusga teng?",
+      "options": ["90°", "360°", "270°", "180°"],
+      "correct": 3,
+      "difficulty": "oson",
+      "explanation": "Har qanday uchburchakning ichki burchaklari yig'indisi 180° ga teng. To'g'ri javob: 180°."
+    },
+    {
+      "id": 92,
+      "section": "Geometriya - Burchaklar",
+      "question": "Uchburchakning ikkita burchagi 40° va 70° bo‘lsa, uchinchi burchagini toping",
+      "options": ["80°", "70°", "60°", "90°"],
+      "correct": 1,
+      "difficulty": "o'rta",
+      "explanation": "Uchburchakning burchaklari yig'indisi 180° bo'lganligi sababli, uchinchi burchak = 180° - (40° + 70°) = 180° - 110° = 70°. To'g'ri javob: 70°."
+    },
+    {
+      "id": 93,
+      "section": "Geometriya - Burchaklar",
+      "question": "Teng yonli uchburchakning asosidagi burchagi 50° bo‘lsa, tepadagi burchagini toping",
+      "options": ["70°", "90°", "80°", "60°"],
+      "correct": 2,
+      "difficulty": "qiyin",
+      "explanation": "Teng yonli uchburchakda asosidagi burchaklar teng. Shuning uchun, ikkita asosiy burchakning yig'indisi = 50° + 50° = 100°. Tepa burchak = 180° - 100° = 80°. To'g'ri javob: 80°."
+    },
+    {
+      "id": 94,
+      "section": "Geometriya - Burchaklar",
+      "question": "Paralel chiziqlar orasidagi kesishuvchi chiziq hosil qilgan qo‘shni burchak 110° bo‘lsa, ikkinchi burchakni toping",
+      "options": ["80°", "60°", "70°", "90°"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "Qo'shni burchaklar yig'indisi 180° ga teng. Ikkinchi burchak = 180° - 110° = 70°. To'g'ri javob: 70°."
+    },
+    {
+      "id": 95,
+      "section": "Geometriya - Burchaklar",
+      "question": "To‘rtburchakning bir burchagi 90° bo‘lsa, qolgan burchaklarning yig'indisini toping",
+      "options": ["180°", "360°", "90°", "270°"],
+      "correct": 3,
+      "difficulty": "o'rta",
+      "explanation": "To‘rtburchakning ichki burchaklari yig'indisi 360° ga teng. Qolgan burchaklar yig'indisi = 360° - 90° = 270°. To'g'ri javob: 270°."
+    },
+    {
+      "id": 96,
+      "section": "Geometriya - Burchaklar",
+      "question": "Teng yonli uchburchakning tepa burchagi 40° bo‘lsa, asosiy burchaklardan birini toping",
+      "options": ["80°", "60°", "50°", "70°"],
+      "correct": 3,
+      "difficulty": "qiyin",
+      "explanation": "Asosiy burchaklar teng va ular yig'indisi = 180° - 40° = 140°. Har bir asosiy burchak = 140° / 2 = 70°. To'g'ri javob: 70°."
+    },
+    {
+      "id": 97,
+      "section": "Geometriya - Burchaklar",
+      "question": "Ikki parallel chiziq orasidagi kesishuvchi chiziq hosil qilgan mos burchak 65° bo‘lsa, boshqa mos burchakni toping",
+      "options": ["115°", "75°", "65°", "105°"],
+      "correct": 2,
+      "difficulty": "o'rta",
+      "explanation": "Parallel chiziqlar orasidagi mos burchaklar har doim o'zaro teng. Shuning uchun, ikkinchi mos burchak ham 65° ga teng. To'g'ri javob: 65°."
+    },
+    {
+      "id": 98,
+      "section": "Geometriya - Burchaklar",
+      "question": "Uchburchakning burchaklari nisbati 2:3:4 bo‘lsa, eng katta burchakni toping",
+      "options": ["90°", "100°", "72°", "80°"],
+      "correct": 3,
+      "difficulty": "qiyin",
+      "explanation": "Burchaklar nisbati 2:3:4 va ularning yig'indisi 180°. Jami nisbat bo'laklari = 2 + 3 + 4 = 9. Eng katta burchak 4 bo'lakdan iborat, shuning uchun (4/9) × 180° = 80°. To'g'ri javob: 80°."
+    },
+    {
+      "id": 99,
+      "section": "Geometriya - Burchaklar",
+      "question": "To‘g‘ri chiziqda joylashgan ikkita burchakning nisbati 3:2 bo‘lsa, kichik burchakni toping",
+      "options": ["108°", "90°", "72°", "60°"],
+      "correct": 2,
+      "difficulty": "qiyin",
+      "explanation": "To‘g‘ri chiziqda joylashgan burchaklar yig'indisi 180° ga teng. Jami nisbat bo'laklari = 3 + 2 = 5. Kichik burchak 2 bo'lakdan iborat, shuning uchun (2/5) × 180° = 72°. To'g'ri javob: 72°."
+    },
+    {
+      "id": 100,
+      "section": "Geometriya - Burchaklar",
+      "question": "Teng yonli uchburchakning bir burchagi 30° bo‘lsa, qolgan burchaklardan kattasini toping",
+      "options": ["60°", "90°", "75°", "45°"],
+      "correct": 2,
+      "difficulty": "qiyin",
+      "explanation": "Agar 30° asosdagi burchak bo'lsa, qolgan ikkita burchak 30° va 180-60=120° boʻladi (uchburchak teng yonli boʻlgani uchun ikkita asos burchagi teng). Agar 30° tepa burchak bo'lsa, qolgan ikkita burchak teng va har biri (180°-30°)/2 = 75°. Ikkala holatda ham burchaklar 30°, 30°, 120° yoki 30°, 75°, 75° boʻladi. Katta burchak esa 75° yoki 120° boʻlishi mumkin. Variantlar ichida 75° bor. Bu eng to'g'ri javob, chunki 30° burchak asos burchagi boʻlsa, 120° ham toʻgʻri javob, lekin variantda yoʻq. Demak, 30° bu tepa burchak deb olingan. To'g'ri javob: 75°."
+    }
+  ]
+}

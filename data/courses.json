@@ -1,0 +1,28 @@
+{
+  "matem": {
+    "name": "Matematika",
+    "levels": {
+      "boshlang'ich": {
+        "time": "Du, Chor, Ju 18:30 - 20:30",
+        "teacher": "Ibrohimov Shohrux",
+        "location": "1-maktab hududida",
+        "price": "7-9 sinflarga 250 ming, 10-11 sinflarga 300 ming",
+        "description": "Kursimiz matematikadan *boshlang'ich bilimga* ega boʻlgan yoki bilimlarni **noldan** boshlamoqchi boʻlganlar uchun moʻljallangan. Darslar sekin va puxta oʻtiladi. Har bir mavzuning asosiy qismi mustahkam oʻrganilgandan soʻng keyingi mavzuga oʻtamiz.  Bu guruhda fundamental bilimlarga asos solinadi."
+      },
+      "o'rta": {
+        "time": "Se, Pay, Shan 18:30 - 20:30",
+        "teacher": "Ibrohimov Shohrux",
+        "location": "1-maktab hududida",
+        "price": "7-9 sinflarga 250 ming, 10-11 sinflarga 300 ming",
+        "description": "Darajangiz *oʻrtacha* boʻlsa, bu guruh aynan siz uchun! Darsliklar **tezkor surʼatda** yakunlanib, asosiy test toʻplamlari bilan ishlashga oʻtiladi. Asosan 1996\\-2003\\-yillar testlari tahlil qilinadi. Maqsadimiz – mavjud bilimlarni takomillashtirish va yuqori natijalarga erishish!"
+      },
+      "yuqori": {
+        "time": "Du, Chor, Pay 20:30 - 22:30",
+        "teacher": "Ibrohimov Shohrux",
+        "location": "1-maktab hududida",
+        "price": "7-9 sinflarga 250 ming, 10-11 sinflarga 300 ming",
+        "description": "Bu guruh oʻziga ishongan, matematikadan **yuqori bilimga** ega oʻquvchilar uchun. Darslar Puza Algebara va Geometriya kabi murakkab kitoblar asosida olib boriladi. Dars surʼati yuqori boʻladi va talabchanlikka alohida eʼtibor beriladi. Bu kurs olimpiada masalalari bilan shugʻullanuvchilar uchun ham juda foydali."
+      }
+    }
+  }
+}
