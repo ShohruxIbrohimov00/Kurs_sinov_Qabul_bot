@@ -475,11 +475,11 @@ async def show_course_details(update: Update, context: ContextTypes.DEFAULT_TYPE
     for level, level_data in course_data.get('levels', {}).items():
         course_text += (
             f"🎯 **{level.capitalize()} daraja:**\n"
-            f"   🕐 Vaqt: {level_data.get('time', 'Ma\'lumot kiritilmagan')}\n"
-            f"   👨‍🏫 O'qituvchi: {level_data.get('teacher', 'Ma\'lumot kiritilmagan')}\n"
-            f"   📍 Manzil: {level_data.get('location', 'Ma\'lumot kiritilmagan')}\n"
-            f"   💰 Narx: {level_data.get('price', 'Ma\'lumot kiritilmagan')}\n\n"
-            f"   📚 Kitoblar: {level_data.get('description', 'Ma\'lumot kiritilmagan')}\n\n"
+            f"   🕐 Vaqt: {level_data.get('time', 'Malumot kiritilmagan')}\n"
+            f"   👨‍🏫 O'qituvchi: {level_data.get('teacher', 'Malumot kiritilmagan')}\n"
+            f"   📍 Manzil: {level_data.get('location', 'Malumot kiritilmagan')}\n"
+            f"   💰 Narx: {level_data.get('price', 'Malumot kiritilmagan')}\n\n"
+            f"   📚 Kitoblar: {level_data.get('description', 'Malumot kiritilmagan')}\n\n"
         )
     
     reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Kurslar ro'yxati", callback_data="courses_list")]])
