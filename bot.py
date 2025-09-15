@@ -399,12 +399,12 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
         result_text += wrong_answers_explanations
 
     result_text += (
-        f"📚 Sizga tavsiya etilayotgan kurs: *{course_data.get('name', 'Noma\'lum')}*\n"
-        f"🕐 Vaqti: {recommended_course.get('time', 'Ma\'lumot kiritilmagan')}\n"
-        f"👨‍🏫 O'qituvchi: {recommended_course.get('teacher', 'Ma\'lumot kiritilmagan')}\n"
-        f"📍 Manzil: {recommended_course.get('location', 'Ma\'lumot kiritilmagan')}\n"
-        f"💰 Narxi: {recommended_course.get('price', 'Ma\'lumot kiritilmagan')}\n\n"
-        f"📚 Kitoblar: {recommended_course.get('description', 'Ma\'lumot kiritilmagan')}\n\n"
+        f"📚 Sizga tavsiya etilayotgan kurs: *{course_data.get('name', "Nomalum")}*\n"
+        f"🕐 Vaqti: {recommended_course.get('time', 'Malumot kiritilmagan')}\n"
+        f"👨‍🏫 O'qituvchi: {recommended_course.get('teacher', 'Malumot kiritilmagan')}\n"
+        f"📍 Manzil: {recommended_course.get('location', 'Malumot kiritilmagan')}\n"
+        f"💰 Narxi: {recommended_course.get('price', 'Malumot kiritilmagan')}\n\n"
+        f"📚 Kitoblar: {recommended_course.get('description', 'Malumot kiritilmagan')}\n\n"
         f"📞 *Ro'yxatdan o'tish uchun: +998507551023*\n"
         f"*@Shoxrux_Ibrohimov*"
     )
