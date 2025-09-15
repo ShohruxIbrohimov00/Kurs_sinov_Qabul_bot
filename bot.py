@@ -399,7 +399,7 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
         result_text += wrong_answers_explanations
 
     result_text += (
-        f"📚 Sizga tavsiya etilayotgan kurs: *{course_data.get('name', "Nomalum")}*\n"
+        f"📚 Sizga tavsiya etilayotgan kurs: *{course_data.get('name', 'Nomalum')}*\n"
         f"🕐 Vaqti: {recommended_course.get('time', 'Malumot kiritilmagan')}\n"
         f"👨‍🏫 O'qituvchi: {recommended_course.get('teacher', 'Malumot kiritilmagan')}\n"
         f"📍 Manzil: {recommended_course.get('location', 'Malumot kiritilmagan')}\n"
