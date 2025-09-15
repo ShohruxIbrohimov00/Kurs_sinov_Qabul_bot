@@ -456,7 +456,7 @@ async def show_courses_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [[InlineKeyboardButton(course['name'], callback_data=f"course_info_{key}")] for key, course in courses.items()]
     reply_markup = InlineKeyboardMarkup(keyboard + [[InlineKeyboardButton("🏠 Asosiy menyu", callback_data="main_menu")]])
     
-    text = "📚 Bizning kurslarimiz haqida ma'lumot olish uchun quyidagi tugmalardan birini tanlang:"
+    text = "📚 Bizning kurslarimiz haqida ma'lumot olish uchun quyidagi tugmalardan birini tanlang:kurs o'qituvchisi tel raqami: +998507551023"
     await query.edit_message_text(text, reply_markup=reply_markup, parse_mode='Markdown')
 
 # Kurs haqida batafsil ma'lumot
