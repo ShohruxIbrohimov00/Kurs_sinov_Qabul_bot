@@ -10,6 +10,7 @@ from telegram.error import BadRequest
 
 # Konfiguratsiya va global o'zgaruvchilar
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+ADMIN_ID = os.getenv("ADMIN_ID")  # Yangi: Admin ID'sini environment o'zgaruvchisidan olish. Masalan, ADMIN_ID=123456789 deb sozlang.
 DATA_DIR = "data"
 COURSES_FILE = os.path.join(DATA_DIR, "courses.json")
 QUESTIONS_FILE = os.path.join(DATA_DIR, "questions.json")
@@ -493,6 +494,51 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await show_main_menu(update, context, user_id)
 
+# Yangi: /usersall komandasi (faqat admin uchun)
+async def users_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = str(update.effective_user.id)
+    if user_id != ADMIN_ID:
+        await update.message.reply_text("Sizda bu buyruqni ishlatish huquqi yo'q.")
+        return
+    if not user_data:
+        await update.message.reply_text("Foydalanuvchilar ma'lumoti yo'q.")
+        return
+    users_text = json.dumps(user_data, ensure_ascii=False, indent=2)
+    await update.message.reply_text(f"Barcha foydalanuvchilar ma'lumoti:\n{users_text}")
+
+# Yangi: /usersallresult komandasi (faqat admin uchun)
+async def users_all_result(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = str(update.effective_user.id)
+    if user_id != ADMIN_ID:
+        await update.message.reply_text("Sizda bu buyruqni ishlatish huquqi yo'q.")
+        return
+    if not results:
+        await update.message.reply_text("Natijalar ma'lumoti yo'q.")
+        return
+    results_text = json.dumps(results, ensure_ascii=False, indent=2)
+    await update.message.reply_text(f"Barcha foydalanuvchilar natijalari:\n{results_text}")
+
+# Yangi: /message komandasi (faqat admin uchun, /message <text> formatida)
+async def send_message_to_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = str(update.effective_user.id)
+    if user_id != ADMIN_ID:
+        await update.message.reply_text("Sizda bu buyruqni ishlatish huquqi yo'q.")
+        return
+    if not context.args:
+        await update.message.reply_text("Iltimos, xabarni kiriting: /message <xabar matni>")
+        return
+    message_text = " ".join(context.args)
+    sent_count = 0
+    failed_count = 0
+    for uid in user_data.keys():
+        try:
+            await context.bot.send_message(chat_id=uid, text=message_text, parse_mode='Markdown')
+            sent_count += 1
+        except Exception as e:
+            logger.error(f"Foydalanuvchiga xabar yuborishda xato {uid}: {e}")
+            failed_count += 1
+    await update.message.reply_text(f"Xabar {sent_count} foydalanuvchiga yuborildi. Muvaffaqiyatsiz: {failed_count}")
+
 # Asosiy funksiya
 def main():
     logger.info("Bot ishga tushirildi.")
@@ -502,6 +548,9 @@ def main():
     application = Application.builder().token(BOT_TOKEN).build()
     
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("usersall", users_all))  # Yangi handler
+    application.add_handler(CommandHandler("usersallresult", users_all_result))  # Yangi handler
+    application.add_handler(CommandHandler("message", send_message_to_all))  # Yangi handler
     application.add_handler(CallbackQueryHandler(handle_callback))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     
