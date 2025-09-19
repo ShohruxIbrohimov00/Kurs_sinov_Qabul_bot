@@ -379,24 +379,30 @@ async def handle_group_confirmation(update: Update, context: ContextTypes.DEFAUL
             parse_mode=None
         )
 
-# O'qituvchi haqida
 async def show_teacher_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     
     text = (
         "👨‍🏫 **O'zim haqimda**\n\n"
-        "Salom! Men Shoxrux Ibrohimovman. Matematika bo'yicha tajribali o'qituvchiman.\n"
-        "8 yildan ortiq o'qituvchilik tajribam bor. Toshkent axborot texnologiyalari Universitetini tugatganman, hozirda kombinatda Muhandis dasturchi bo'lib ishlayman. Matematikadan alimpistman: Nurota tumanida 7-9 sinflar matematikadan alimpiadada birinchi o'rinni olganman. Navoiy 1-litseyda 2 kursda Navoiy shahrida 1-o'rin, Navoiy viloyat bosqichida 5-o'rinni olganman.\n\n"
-        "KURSLARIMNI asosan 0 dan boshlab o'taman. Turk sifir matematika kabi kitoblar bor, tarjima qilganman. O'zi mshu kitoblardan o'quvchilarga 0 dan bilim beraman. Bu kitoblar orqali qiynalmay, unchalik miyaga nagruzka bermay, fundamental matematikani puxta o'rganib olishingiz mumkin. O'rta darajaga kelsak, bilimingiz fundamentalda yaxshi bo'lgach, toplam 1996-2003 maktab darsliklari shu kitoblar o'tiladi. Bundan ham o'tib olgach, eng oxirida Puza geometriya, Algebra, Skanavi kabi kuchli kitoblarda ishlaymiz.\n\n"
-        "NATIJALAR: 0 dan boshlab o'rganuvchilarga 2 yilda bemalol Milliy sertifikatga topshirish va yuqori natijalar olishgacha tayyorlayman. Bir yilda ham eplasa bo'ladi, bu 0 dan boshlasangiz ham o'zingizning olish qobiliyatingizga bog'liq. Kimdurlar bitta kitobni 4 oyda tugatib, yana qayta ishlab chiqmasa bo'lmaydigan darajada esindan chiqarib yuboradi, kimdur esa 7 oyda ishlab tugatib, lekin mukammal tugatgan, esidan mavzularni ishlash usullarini esidan chiqarib yubormagan bo'ladi. Hullas shunaqa gaplar.\n\n"
-        "Kursga qo'shilish uchun:\n"
-        "📞 Aloqa: +998507551023\n"
+        "Salom! Men Shoxrux Ibrohimovman\. Matematika bo'yicha tajribali o'qituvchiman\.\n"
+        "8 yildan ortiq o'qituvchilik tajribam bor\. Toshkent axborot texnologiyalari Universitetini tugatganman, hozirda kombinatda Muhandis dasturchi bo'lib ishlayman\. Matematikadan alimpistman: Nurota tumanida 7\-9 sinflar matematikadan alimpiadada birinchi o'rinni olganman\. Navoiy 1\-litseyda 2 kursda Navoiy shahrida 1\-o'rin, Navoiy viloyat bosqichida 5\-o'rinni olganman\.\n\n"
+        "**KURSLARIM**\n\n"
+        "Kurslarimni asosan 0 dan boshlab o'taman\. Turk sifir matematika kabi kitoblar bor, tarjima qilganman\. O'zi shu kitoblardan o'quvchilarga 0 dan bilim beraman\. Bu kitoblar orqali qiynalmay, unchalik miyaga nagruzka bermay, fundamental matematikani puxta o'rganib olishingiz mumkin\. O'rta darajaga kelsak, bilimingiz fundamentalda yaxshi bo'lgach, toplam 1996\-2003 maktab darsliklari shu kitoblar o'tiladi\. Bundan ham o'tib olgach, eng oxirida Puza geometriya, Algebra, Skanavi kabi kuchli kitoblarda ishlaymiz\.\n\n"
+        "**NATIJALAR**\n\n"
+        "0 dan boshlab o'rganuvchilarga 2 yilda bemalol Milliy sertifikatga topshirish va yuqori natijalar olishgacha tayyorlayman\. Bir yilda ham eplasa bo'ladi, bu 0 dan boshlasangiz ham o'zingizning olish qobiliyatingizga bog'liq\. Kimdurlar bitta kitobni 4 oyda tugatib, yana qayta ishlab chiqmasa bo'lmaydigan darajada esidan chiqarib yuboradi, kimdur esa 7 oyda ishlab tugatib, lekin mukammal tugatgan, esidan mavzularni ishlash usullarini esidan chiqarib yubormagan bo'ladi\. Hullas shunaqa gaplar\.\n\n"
+        "**Kursga qo'shilish uchun**\n"
+        "📞 Aloqa: \+998507551023\n"
         "@Shoxrux_Ibrohimov"
     )
     
     keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("🏠 Asosiy menyu", callback_data="main_menu")]])
-    await query.edit_message_text(text, reply_markup=keyboard, parse_mode='Markdown')
+    try:
+        await query.edit_message_text(text, reply_markup=keyboard, parse_mode='MarkdownV2')
+    except BadRequest as e:
+        logger.error(f"Markdown parsing xatosi: {e}")
+        # Agar Markdown xatosi bo'lsa, oddiy matn sifatida yuborish
+        await query.edit_message_text(text.replace('\\', ''), reply_markup=keyboard, parse_mode=None)
 
 # Natijalarni ko'rsatish (oddiy user uchun)
 async def show_results(update: Update, context: ContextTypes.DEFAULT_TYPE):
