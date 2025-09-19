@@ -5,12 +5,12 @@ import os
 from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes, MessageHandler, filters
-from telegram.error import BadRequest, Forbidden
+from telegram.error import BadRequest, Forbidden, TelegramError
 
 # Konfiguratsiya va global o'zgaruvchilar
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = os.getenv("ADMIN_ID")
-MY_GROUP = os.getenv("MY_GROUP")  # Guruh ID'si yoki linki (masalan, @Zarafshan_Matematika yoki -1001234567890)
+MY_GROUP = os.getenv("MY_GROUP")  # Guruh ID'si yoki linki (masalan, t.me/Zarafshan_Matematika)
 DATA_DIR = "data"
 COURSES_FILE = os.path.join(DATA_DIR, "courses.json")
 QUESTIONS_FILE = os.path.join(DATA_DIR, "questions.json")
@@ -259,13 +259,25 @@ async def handle_group_join(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(user_id, "Guruh sozlanmagan. Ma'muriyat bilan bog'laning.")
         return
     
-    # Guruh linkini to'g'ri formatlash
-    if MY_GROUP.startswith('@') or MY_GROUP.startswith('t.me/'):
-        group_link = MY_GROUP
-    elif MY_GROUP.startswith('-'):
-        group_link = f"https://t.me/{MY_GROUP[1:]}"
+    # Guruh linkini to'g'ri formatlash (t.me/Zarafshan_Matematika uchun)
+    if 'Zarafshan_Matematika' in MY_GROUP:
+        group_link = "https://t.me/Zarafshan_Matematika"
+        group_id = "@Zarafshan_Matematika"
     else:
-        group_link = f"https://t.me/{MY_GROUP}"
+        # Umumiy formatlash
+        if MY_GROUP.startswith('t.me/'):
+            group_username = MY_GROUP.split('/')[-1]
+            group_link = f"https://t.me/{group_username}"
+            group_id = f"@{group_username}"
+        elif MY_GROUP.startswith('@'):
+            group_link = f"https://t.me/{MY_GROUP[1:]}"
+            group_id = MY_GROUP
+        elif MY_GROUP.startswith('-'):
+            group_link = f"https://t.me/c/{MY_GROUP[4:]}/1"  # Private guruh uchun
+            group_id = MY_GROUP
+        else:
+            group_link = f"https://t.me/{MY_GROUP}"
+            group_id = f"@{MY_GROUP}"
     
     keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("✅ Tasdiqlash", callback_data="confirm_group")]])
     text = (
@@ -279,6 +291,7 @@ async def handle_group_join(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.callback_query.message.edit_text(text, reply_markup=keyboard, parse_mode=None)  # Markdown o'chirildi
         else:
             await context.bot.send_message(user_id, text, reply_markup=keyboard, parse_mode=None)
+        logger.info(f"Foydalanuvchi {user_id}: Guruhga a'zo bo'lish so'raldi. Guruh ID: {group_id}")
     except BadRequest as e:
         logger.error(f"Guruh xabari yuborishda xato: {e}")
         await context.bot.send_message(user_id, "Xabar yuborishda xatolik yuz berdi. Qayta urinib ko'ring.")
@@ -293,17 +306,42 @@ async def handle_group_confirmation(update: Update, context: ContextTypes.DEFAUL
         await query.edit_message_text("Guruh sozlanmagan. Ma'muriyat bilan bog'laning.", parse_mode=None)
         return
     
-    try:
-        # Guruh ID'sini to'g'ri formatlash
-        chat_id = MY_GROUP
-        if MY_GROUP.startswith('@'):
+    # Guruh ID'sini to'g'ri formatlash (t.me/Zarafshan_Matematika uchun)
+    if 'Zarafshan_Matematika' in MY_GROUP:
+        chat_id = "@Zarafshan_Matematika"
+    else:
+        # Umumiy formatlash
+        if MY_GROUP.startswith('t.me/'):
+            chat_id = f"@{MY_GROUP.split('/')[-1]}"
+        elif MY_GROUP.startswith('@'):
             chat_id = MY_GROUP
-        elif MY_GROUP.startswith('t.me/'):
-            chat_id = MY_GROUP.split('/')[-1]
-        elif not MY_GROUP.startswith('-'):
-            chat_id = f"-100{MY_GROUP}"
-        
+        elif MY_GROUP.startswith('-'):
+            chat_id = MY_GROUP
+        else:
+            chat_id = f"@{MY_GROUP}"
+    
+    try:
         logger.info(f"Guruh ID tekshirilmoqda: {chat_id}")
+        
+        # Botning guruhda ekanligini va admin ekanligini tekshirish
+        try:
+            bot_member = await context.bot.get_chat_member(chat_id=chat_id, user_id=context.bot.id)
+            if bot_member.status not in ['administrator', 'creator']:
+                logger.error(f"Bot {chat_id} guruhida admin emas: {bot_member.status}")
+                await query.edit_message_text(
+                    f"Bot {chat_id} guruhida admin sifatida bo'lishi kerak. Iltimos, botni guruhda admin qiling.",
+                    parse_mode=None
+                )
+                return
+        except TelegramError as bot_e:
+            logger.error(f"Botning guruhdagi holatini tekshirishda xato: {bot_e}")
+            await query.edit_message_text(
+                f"Bot {chat_id} guruhida emas yoki admin emas. Iltimos, botni guruhga qo'shing va admin qiling.",
+                parse_mode=None
+            )
+            return
+        
+        # Foydalanuvchining guruhdagi holatini tekshirish
         member = await context.bot.get_chat_member(chat_id=chat_id, user_id=user_id)
         if member.status in ['member', 'administrator', 'creator']:
             user_data[user_id]["group_joined"] = True
@@ -314,22 +352,30 @@ async def handle_group_confirmation(update: Update, context: ContextTypes.DEFAUL
                 parse_mode='Markdown'
             )
             await show_main_menu(update, context, user_id)
+            logger.info(f"Foydalanuvchi {user_id}: Guruhga a'zo bo'ldi.")
         else:
             await query.edit_message_text(
                 "Siz hali guruhga a'zo bo'lmagansiz. Iltimos, guruhga qo'shiling va qayta tasdiqlang.",
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("✅ Tasdiqlash", callback_data="confirm_group")]]),
                 parse_mode=None
             )
-    except Forbidden as e:
-        logger.error(f"Guruh a'zoligini tekshirishda xato (bot admin emas): {e}")
+    except TelegramError as e:
+        if "chat not found" in str(e).lower() or "group not found" in str(e).lower():
+            logger.error(f"Guruh topilmadi: {chat_id}. Bot guruhga qo'shilmagan yoki noto'g'ri ID.")
+            await query.edit_message_text(
+                f"Guruh '{chat_id}' topilmadi. Iltimos, botni guruhga qo'shing yoki MY_GROUP ni to'g'ri kiriting (masalan, @username).",
+                parse_mode=None
+            )
+        else:
+            logger.error(f"Guruh a'zoligini tekshirishda xato: {e}")
+            await query.edit_message_text(
+                f"Guruhni tekshirishda xatolik yuz berdi: {str(e)}. Iltimos, qayta urinib ko'ring yoki ma'muriyat bilan bog'laning.",
+                parse_mode=None
+            )
+    except Exception as e:
+        logger.error(f"Kutilmagan xato guruh tekshirishda: {e}")
         await query.edit_message_text(
-            "Bot guruhda admin sifatida bo'lishi kerak. Iltimos, botni guruhda admin qiling yoki ma'muriyat bilan bog'laning.",
-            parse_mode=None
-        )
-    except BadRequest as e:
-        logger.error(f"Guruh a'zoligini tekshirishda xato: {e}")
-        await query.edit_message_text(
-            f"Guruhni tekshirishda xatolik yuz berdi: {str(e)}. Iltimos, qayta urinib ko'ring yoki ma'muriyat bilan bog'laning.",
+            "Kutilmagan xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
             parse_mode=None
         )
 
@@ -341,10 +387,10 @@ async def show_teacher_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = (
         "👨‍🏫 **O'zim haqimda**\n\n"
         "Salom! Men Shoxrux Ibrohimovman. Matematika bo'yicha tajribali o'qituvchiman.\n"
-        "8 yildan ortiq o'qituvchilik tajribam bor.Toshkent axborot texnologiyalari Universitetini tugatganman hozirda kombinatda Muhandis dasturchi bo'lib ishlayman.Matematikadan alimpistman Nurota tumanida 7-9 sinflar matematikadan alimpiadada birirnchi o'rinni olganman Navoiy 1-litseyda 2 kursda Navoiy shahrida 1-o'rin Navoiy viloyat bosiqichida 5-o'rinni olganman.\n\n"
-          "kURSLARIMNI asosan 0 dan boshlab o'taman Turk sifir matematika kabi kitoblar bor tarjima qilganman o'zi mshu kitoblardan oquvchilarga 0 dan bilim beraman bu kitoblar orqali qiynalmay unchalik miyaga nagruzka bermay fundamental matematikani puxta o'rganib olishingiz mumkin. O'rta darajaga kelsak bilimingiz fundamentalda yaxshi bo'lgach toplam 1996-2003 maktab darsliklari shu kitoblar o'tiladi bundan ham o'tiob olgach eng oxirida Puza geometriya Algebra, Skanavi kabi kuchli kitoblarda ishlaymiz. \n\n"
-          "NATIJALAR: 0 dan boshlab o'rganuvchilarga 2 yilda bemalol Milliy sertifikatga topshirish va yuqori natijalar olishgacha tayyorlayman bir yilda ham eplasa boladi bu 0 dan boshlasangiz ham o'zingizning olish qobiliyatingizga bog'liq kimdurlar bitta kitbni 4 oyda tugatib yana qayta ishlab chiqmasa bolmaydigan darajada esindan chiqarib yuboradi kimdur esa 7 oyda ishlab tugatib lekin mukammla tugatgan esidan mavzularni ishlash usullarini esidan chiqarib yubormagan boladi hullas shunaqa gaplar\n"
-          "Kursga qo'shilish uchun \n"
+        "8 yildan ortiq o'qituvchilik tajribam bor. Toshkent axborot texnologiyalari Universitetini tugatganman, hozirda kombinatda Muhandis dasturchi bo'lib ishlayman. Matematikadan alimpistman: Nurota tumanida 7-9 sinflar matematikadan alimpiadada birinchi o'rinni olganman. Navoiy 1-litseyda 2 kursda Navoiy shahrida 1-o'rin, Navoiy viloyat bosqichida 5-o'rinni olganman.\n\n"
+        "KURSLARIMNI asosan 0 dan boshlab o'taman. Turk sifir matematika kabi kitoblar bor, tarjima qilganman. O'zi mshu kitoblardan o'quvchilarga 0 dan bilim beraman. Bu kitoblar orqali qiynalmay, unchalik miyaga nagruzka bermay, fundamental matematikani puxta o'rganib olishingiz mumkin. O'rta darajaga kelsak, bilimingiz fundamentalda yaxshi bo'lgach, toplam 1996-2003 maktab darsliklari shu kitoblar o'tiladi. Bundan ham o'tib olgach, eng oxirida Puza geometriya, Algebra, Skanavi kabi kuchli kitoblarda ishlaymiz.\n\n"
+        "NATIJALAR: 0 dan boshlab o'rganuvchilarga 2 yilda bemalol Milliy sertifikatga topshirish va yuqori natijalar olishgacha tayyorlayman. Bir yilda ham eplasa bo'ladi, bu 0 dan boshlasangiz ham o'zingizning olish qobiliyatingizga bog'liq. Kimdurlar bitta kitobni 4 oyda tugatib, yana qayta ishlab chiqmasa bo'lmaydigan darajada esindan chiqarib yuboradi, kimdur esa 7 oyda ishlab tugatib, lekin mukammal tugatgan, esidan mavzularni ishlash usullarini esidan chiqarib yubormagan bo'ladi. Hullas shunaqa gaplar.\n\n"
+        "Kursga qo'shilish uchun:\n"
         "📞 Aloqa: +998507551023\n"
         "@Shoxrux_Ibrohimov"
     )
