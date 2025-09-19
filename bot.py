@@ -3,15 +3,14 @@ import random
 import json
 import os
 from datetime import datetime
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes, MessageHandler, filters
 from telegram.error import BadRequest, Forbidden
-
 
 # Konfiguratsiya va global o'zgaruvchilar
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = os.getenv("ADMIN_ID")
-MY_GROUP = os.getenv("MY_GROUP")  # Yangi: Guruh ID'si environment o'zgaruvchisidan olinadi
+MY_GROUP = os.getenv("MY_GROUP")  # Guruh ID'si yoki linki (masalan, @Zarafshan_Matematika yoki -1001234567890)
 DATA_DIR = "data"
 COURSES_FILE = os.path.join(DATA_DIR, "courses.json")
 QUESTIONS_FILE = os.path.join(DATA_DIR, "questions.json")
@@ -232,12 +231,22 @@ async def handle_phone_selection(update: Update, context: ContextTypes.DEFAULT_T
             parse_mode='Markdown'
         )
     elif query.data == "share_phone":
+        user_data[user_id]["waiting_for"] = "share_phone"
+        save_data(user_data, USER_DATA_FILE)
         keyboard = ReplyKeyboardMarkup(
             [[KeyboardButton("📞 Raqamni yuborish", request_contact=True)]],
-            one_time_keyboard=True
+            one_time_keyboard=True,
+            resize_keyboard=True
         )
         await query.edit_message_text(
             "Quyidagi tugma orqali Telegramdagi raqamingizni yuboring:",
+            reply_markup=None,  # Inline keyboard o'rniga None
+            parse_mode='Markdown'
+        )
+        # Alohida xabar yuborish klaviatura bilan
+        await context.bot.send_message(
+            chat_id=user_id,
+            text="Quyidagi tugmani bosing:",
             reply_markup=keyboard,
             parse_mode='Markdown'
         )
@@ -245,7 +254,18 @@ async def handle_phone_selection(update: Update, context: ContextTypes.DEFAULT_T
 # Guruhga a'zo bo'lish
 async def handle_group_join(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = str(update.effective_user.id)
-    group_link = f"t.me/{MY_GROUP}" if MY_GROUP.startswith('+') or MY_GROUP.startswith('-') else MY_GROUP
+    if not MY_GROUP:
+        logger.error("MY_GROUP environment o'zgaruvchisi sozlanmagan!")
+        await context.bot.send_message(user_id, "Guruh sozlanmagan. Ma'muriyat bilan bog'laning.")
+        return
+    
+    # Guruh linkini to'g'ri formatlash
+    if MY_GROUP.startswith('@') or MY_GROUP.startswith('t.me/'):
+        group_link = MY_GROUP
+    elif MY_GROUP.startswith('-'):
+        group_link = f"https://t.me/{MY_GROUP[1:]}"
+    else:
+        group_link = f"https://t.me/{MY_GROUP}"
     
     keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("✅ Tasdiqlash", callback_data="confirm_group")]])
     text = (
@@ -256,11 +276,12 @@ async def handle_group_join(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     try:
         if update.callback_query:
-            await update.callback_query.message.edit_text(text, reply_markup=keyboard, parse_mode='Markdown')
+            await update.callback_query.message.edit_text(text, reply_markup=keyboard, parse_mode=None)  # Markdown o'chirildi
         else:
-            await context.bot.send_message(user_id, text, reply_markup=keyboard, parse_mode='Markdown')
+            await context.bot.send_message(user_id, text, reply_markup=keyboard, parse_mode=None)
     except BadRequest as e:
         logger.error(f"Guruh xabari yuborishda xato: {e}")
+        await context.bot.send_message(user_id, "Xabar yuborishda xatolik yuz berdi. Qayta urinib ko'ring.")
 
 # Guruh a'zoligini tasdiqlash
 async def handle_group_confirmation(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -268,8 +289,22 @@ async def handle_group_confirmation(update: Update, context: ContextTypes.DEFAUL
     await query.answer()
     user_id = str(query.from_user.id)
     
+    if not MY_GROUP:
+        await query.edit_message_text("Guruh sozlanmagan. Ma'muriyat bilan bog'laning.", parse_mode=None)
+        return
+    
     try:
-        member = await context.bot.get_chat_member(MY_GROUP, user_id)
+        # Guruh ID'sini to'g'ri formatlash
+        chat_id = MY_GROUP
+        if MY_GROUP.startswith('@'):
+            chat_id = MY_GROUP
+        elif MY_GROUP.startswith('t.me/'):
+            chat_id = MY_GROUP.split('/')[-1]
+        elif not MY_GROUP.startswith('-'):
+            chat_id = f"-100{MY_GROUP}"
+        
+        logger.info(f"Guruh ID tekshirilmoqda: {chat_id}")
+        member = await context.bot.get_chat_member(chat_id=chat_id, user_id=user_id)
         if member.status in ['member', 'administrator', 'creator']:
             user_data[user_id]["group_joined"] = True
             save_data(user_data, USER_DATA_FILE)
@@ -278,23 +313,24 @@ async def handle_group_confirmation(update: Update, context: ContextTypes.DEFAUL
                 reply_markup=MAIN_KEYBOARD,
                 parse_mode='Markdown'
             )
+            await show_main_menu(update, context, user_id)
         else:
             await query.edit_message_text(
                 "Siz hali guruhga a'zo bo'lmagansiz. Iltimos, guruhga qo'shiling va qayta tasdiqlang.",
                 reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("✅ Tasdiqlash", callback_data="confirm_group")]]),
-                parse_mode='Markdown'
+                parse_mode=None
             )
     except Forbidden as e:
-        logger.error(f"Guruh a'zoligini tekshirishda xato: {e}")
+        logger.error(f"Guruh a'zoligini tekshirishda xato (bot admin emas): {e}")
         await query.edit_message_text(
             "Bot guruhda admin sifatida bo'lishi kerak. Iltimos, botni guruhda admin qiling yoki ma'muriyat bilan bog'laning.",
-            parse_mode='Markdown'
+            parse_mode=None
         )
     except BadRequest as e:
         logger.error(f"Guruh a'zoligini tekshirishda xato: {e}")
         await query.edit_message_text(
-            "Guruhni tekshirishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring yoki ma'muriyat bilan bog'laning.",
-            parse_mode='Markdown'
+            f"Guruhni tekshirishda xatolik yuz berdi: {str(e)}. Iltimos, qayta urinib ko'ring yoki ma'muriyat bilan bog'laning.",
+            parse_mode=None
         )
 
 # O'qituvchi haqida
@@ -708,6 +744,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             save_data(user_data, USER_DATA_FILE)
             await update.message.reply_text(
                 f"Raqam saqlandi: {phone}\n\nEndi guruhga a'zo bo'ling!",
+                reply_markup=ReplyKeyboardRemove(),
                 parse_mode='Markdown'
             )
             await handle_group_join(update, context)
@@ -717,6 +754,22 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 reply_markup=PHONE_KEYBOARD,
                 parse_mode='Markdown'
             )
+        return
+    
+    elif waiting_for == "share_phone":
+        # Bu holatda foydalanuvchi oddiy matn yuborgan, lekin kontakt kutmoqda
+        await update.message.reply_text(
+            "Iltimos, 'Raqamni yuborish' tugmasini bosing yoki qo'lda raqam kiriting.",
+            reply_markup=ReplyKeyboardMarkup(
+                [
+                    [KeyboardButton("📞 Raqamni yuborish", request_contact=True)],
+                    [InlineKeyboardButton("📱 Qo'lda kiriting", callback_data="enter_phone")]
+                ],
+                one_time_keyboard=True,
+                resize_keyboard=True
+            ),
+            parse_mode='Markdown'
+        )
         return
     
     elif waiting_for == "broadcast" and user_id == ADMIN_ID:
@@ -748,7 +801,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # Kontakt yuborilganda (Telegram raqami)
 async def handle_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = str(update.effective_user.id)
-    if user_data[user_id].get("waiting_for") == "phone":
+    if user_data[user_id].get("waiting_for") == "share_phone":
         contact = update.message.contact
         phone = contact.phone_number
         user_data[user_id]["phone"] = phone
