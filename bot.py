@@ -3,14 +3,15 @@ import random
 import json
 import os
 from datetime import datetime
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes, MessageHandler, filters
-from telegram.error import BadRequest
+from telegram.error import BadRequest, Forbidden
 
 
 # Konfiguratsiya va global o'zgaruvchilar
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-ADMIN_ID = os.getenv("ADMIN_ID")  # Yangi: Admin ID'sini environment o'zgaruvchisidan olish. Masalan, ADMIN_ID=123456789 deb sozlang.
+ADMIN_ID = os.getenv("ADMIN_ID")
+MY_GROUP = os.getenv("MY_GROUP")  # Yangi: Guruh ID'si environment o'zgaruvchisidan olinadi
 DATA_DIR = "data"
 COURSES_FILE = os.path.join(DATA_DIR, "courses.json")
 QUESTIONS_FILE = os.path.join(DATA_DIR, "questions.json")
@@ -51,11 +52,26 @@ def save_data(data, filename):
 
 courses, questions_pool, schools, user_data, results = load_data()
 
-# Asosiy menyu
+# Asosiy menyu (oddiy foydalanuvchilar uchun)
 MAIN_KEYBOARD = InlineKeyboardMarkup([
     [InlineKeyboardButton("📝 Sinov testi", callback_data="start_test")],
     [InlineKeyboardButton("📚 Kurslar haqida", callback_data="courses_list")],
+    [InlineKeyboardButton("👨‍🏫 O'qituvchi haqida", callback_data="teacher_info")],
     [InlineKeyboardButton("📊 Natijalarim", callback_data="show_results")]
+])
+
+# Admin menyu
+ADMIN_MENU_KEYBOARD = InlineKeyboardMarkup([
+    [InlineKeyboardButton("👥 Barcha o'quvchilar", callback_data="admin_users")],
+    [InlineKeyboardButton("📊 Barcha natijalar", callback_data="admin_results")],
+    [InlineKeyboardButton("📢 Barchaga xabar", callback_data="admin_broadcast")],
+    [InlineKeyboardButton("🏠 Asosiy menyu", callback_data="main_menu")]
+])
+
+# Telefon raqami so'rash menyusi
+PHONE_KEYBOARD = InlineKeyboardMarkup([
+    [InlineKeyboardButton("📱 Telefon raqamini kiritish", callback_data="enter_phone")],
+    [InlineKeyboardButton("📞 Telegramdagi raqamni yuborish", callback_data="share_phone")]
 ])
 
 async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, user_id: str):
@@ -72,16 +88,21 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, use
         f"yoki boshqa imkoniyatlarni ko'rish uchun tugmalardan birini tanlang."
     )
     
+    if user_id == ADMIN_ID:
+        keyboard = ADMIN_MENU_KEYBOARD
+    else:
+        keyboard = MAIN_KEYBOARD
+    
     try:
         if update.callback_query and update.callback_query.message:
-            await update.callback_query.message.edit_text(text, reply_markup=MAIN_KEYBOARD, parse_mode='Markdown')
+            await update.callback_query.message.edit_text(text, reply_markup=keyboard, parse_mode='Markdown')
         elif update.message:
-            await update.message.reply_text(text, reply_markup=MAIN_KEYBOARD, parse_mode='Markdown')
+            await update.message.reply_text(text, reply_markup=keyboard, parse_mode='Markdown')
         logger.info(f"Foydalanuvchi {user_id}: Asosiy menyu muvaffaqiyatli yuborildi.")
     except BadRequest as e:
         logger.error(f"Asosiy menyu yuborishda xato: {e}")
         if update.message:
-            await update.message.reply_text(text, reply_markup=MAIN_KEYBOARD, parse_mode='Markdown')
+            await update.message.reply_text(text, reply_markup=keyboard, parse_mode='Markdown')
 
 # Start komandasi
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -96,8 +117,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "username": user.username,
             "class": None,
             "school": None,
+            "phone": None,
+            "group_joined": False,
             "last_test_date": None,
-            "test_count_today": 0
+            "test_count_today": 0,
+            "waiting_for": None
         }
         save_data(user_data, USER_DATA_FILE)
 
@@ -105,31 +129,48 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         results[user_id] = []
         save_data(results, RESULTS_FILE)
     
-    if user_data.get(user_id, {}).get("class") and user_data.get(user_id, {}).get("school"):
+    if user_data.get(user_id, {}).get("class") and user_data.get(user_id, {}).get("school") and user_data.get(user_id, {}).get("phone") and user_data.get(user_id, {}).get("group_joined"):
         await show_main_menu(update, context, user_id)
         return
     
-    classes_keyboard = InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("5-sinf", callback_data="class_5"),
-            InlineKeyboardButton("6-sinf", callback_data="class_6"),
-            InlineKeyboardButton("7-sinf", callback_data="class_7")
-        ],
-        [
-            InlineKeyboardButton("8-sinf", callback_data="class_8"),
-            InlineKeyboardButton("9-sinf", callback_data="class_9"),
-            InlineKeyboardButton("10-sinf", callback_data="class_10")
-        ],
-        [
-            InlineKeyboardButton("11-sinf", callback_data="class_11")
-        ]
-    ])
+    if not user_data[user_id].get("class"):
+        classes_keyboard = InlineKeyboardMarkup([
+            [
+                InlineKeyboardButton("5-sinf", callback_data="class_5"),
+                InlineKeyboardButton("6-sinf", callback_data="class_6"),
+                InlineKeyboardButton("7-sinf", callback_data="class_7")
+            ],
+            [
+                InlineKeyboardButton("8-sinf", callback_data="class_8"),
+                InlineKeyboardButton("9-sinf", callback_data="class_9"),
+                InlineKeyboardButton("10-sinf", callback_data="class_10")
+            ],
+            [
+                InlineKeyboardButton("11-sinf", callback_data="class_11")
+            ]
+        ])
+        
+        await update.message.reply_text(
+            f"Xush kelibsiz, {user.first_name}! Siz bilan yaqinroq tanishish uchun nechanchi sinf o'quvchisi ekanligingizni tanlang:",
+            reply_markup=classes_keyboard,
+            parse_mode='Markdown'
+        )
+        return
     
-    await update.message.reply_text(
-        f"Xush kelibsiz, {user.first_name}! Siz bilan yaqinroq tanishish uchun nechanchi sinf o'quvchisi ekanligingizni tanlang:",
-        reply_markup=classes_keyboard,
-        parse_mode='Markdown'
-    )
+    if not user_data[user_id].get("school"):
+        # Bu yerda class tanlangan deb hisoblaymiz, lekin start da emas, handle_class dan chaqiriladi
+        pass
+    
+    if not user_data[user_id].get("phone"):
+        await update.message.reply_text(
+            f"Telefon raqamingizni kiriting yoki Telegramdagi raqamingizni yuboring:",
+            reply_markup=PHONE_KEYBOARD,
+            parse_mode='Markdown'
+        )
+        return
+    
+    if not user_data[user_id].get("group_joined"):
+        await handle_group_join(update, context)
 
 # Sinf tanlaganda
 async def handle_class_selection(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -169,20 +210,110 @@ async def handle_school_selection(update: Update, context: ContextTypes.DEFAULT_
     school_name = schools.get("schools", {}).get(school_data, "Boshqa maktab") if school_data != "other" else "Boshqa maktab"
     user_data[user_id]["school"] = school_name
     save_data(user_data, USER_DATA_FILE)
-
-    text = (
-        f"Demak, siz {school_name} o'quvchisisiz!\n\n"
-        f"Matematika kurslarimizdan qaysi biri sizga to'g'ri kelishini bilish uchun "
-        f"bilim darajangizni sinovdan o'tkazamiz. Tayyormisiz?"
-    )
     
     await query.edit_message_text(
-        text,
-        reply_markup=MAIN_KEYBOARD,
+        f"Demak, siz {school_name} o'quvchisisiz! Telefon raqamingizni kiriting yoki Telegramdagi raqamingizni yuboring:",
+        reply_markup=PHONE_KEYBOARD,
         parse_mode='Markdown'
     )
 
-# Natijalarni ko'rsatish
+# Telefon raqami kiritishni tanlaganda
+async def handle_phone_selection(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    user_id = str(query.from_user.id)
+    
+    if query.data == "enter_phone":
+        user_data[user_id]["waiting_for"] = "phone"
+        save_data(user_data, USER_DATA_FILE)
+        await query.edit_message_text(
+            "📱 Telefon raqamingizni quyidagi formatda kiriting: +998901234567\n"
+            "Raqam '+' bilan boshlanishi va kamida 12 ta belgidan iborat bo'lishi kerak.",
+            parse_mode='Markdown'
+        )
+    elif query.data == "share_phone":
+        keyboard = ReplyKeyboardMarkup(
+            [[KeyboardButton("📞 Raqamni yuborish", request_contact=True)]],
+            one_time_keyboard=True
+        )
+        await query.edit_message_text(
+            "Quyidagi tugma orqali Telegramdagi raqamingizni yuboring:",
+            reply_markup=keyboard,
+            parse_mode='Markdown'
+        )
+
+# Guruhga a'zo bo'lish
+async def handle_group_join(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = str(update.effective_user.id)
+    group_link = f"t.me/{MY_GROUP}" if MY_GROUP.startswith('+') or MY_GROUP.startswith('-') else MY_GROUP
+    
+    keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("✅ Tasdiqlash", callback_data="confirm_group")]])
+    text = (
+        f"Ro'yxatdan o'tishni yakunlash uchun quyidagi guruhga a'zo bo'ling:\n"
+        f"{group_link}\n\n"
+        f"A'zo bo'lganingizdan so'ng, *Tasdiqlash* tugmasini bosing."
+    )
+    
+    try:
+        if update.callback_query:
+            await update.callback_query.message.edit_text(text, reply_markup=keyboard, parse_mode='Markdown')
+        else:
+            await context.bot.send_message(user_id, text, reply_markup=keyboard, parse_mode='Markdown')
+    except BadRequest as e:
+        logger.error(f"Guruh xabari yuborishda xato: {e}")
+
+# Guruh a'zoligini tasdiqlash
+async def handle_group_confirmation(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    user_id = str(query.from_user.id)
+    
+    try:
+        member = await context.bot.get_chat_member(MY_GROUP, user_id)
+        if member.status in ['member', 'administrator', 'creator']:
+            user_data[user_id]["group_joined"] = True
+            save_data(user_data, USER_DATA_FILE)
+            await query.edit_message_text(
+                "✅ Guruhga a'zo bo'ldingiz! Endi asosiy menyudan foydalanishingiz mumkin.",
+                reply_markup=MAIN_KEYBOARD,
+                parse_mode='Markdown'
+            )
+        else:
+            await query.edit_message_text(
+                "Siz hali guruhga a'zo bo'lmagansiz. Iltimos, guruhga qo'shiling va qayta tasdiqlang.",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("✅ Tasdiqlash", callback_data="confirm_group")]]),
+                parse_mode='Markdown'
+            )
+    except Forbidden as e:
+        logger.error(f"Guruh a'zoligini tekshirishda xato: {e}")
+        await query.edit_message_text(
+            "Bot guruhda admin sifatida bo'lishi kerak. Iltimos, botni guruhda admin qiling yoki ma'muriyat bilan bog'laning.",
+            parse_mode='Markdown'
+        )
+    except BadRequest as e:
+        logger.error(f"Guruh a'zoligini tekshirishda xato: {e}")
+        await query.edit_message_text(
+            "Guruhni tekshirishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring yoki ma'muriyat bilan bog'laning.",
+            parse_mode='Markdown'
+        )
+
+# O'qituvchi haqida
+async def show_teacher_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    
+    text = (
+        "👨‍🏫 **O'qituvchi haqida**\n\n"
+        "Salom! Men Shoxrux Ibrohimovman. Matematika bo'yicha tajribali o'qituvchiman.\n"
+        "10 yildan ortiq o'qituvchilik tajribam bor. O'quvchilarimni yuqori natijalarga erishishga yordam beraman.\n\n"
+        "📞 Aloqa: +998507551023\n"
+        "@Shoxrux_Ibrohimov"
+    )
+    
+    keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("🏠 Asosiy menyu", callback_data="main_menu")]])
+    await query.edit_message_text(text, reply_markup=keyboard, parse_mode='Markdown')
+
+# Natijalarni ko'rsatish (oddiy user uchun)
 async def show_results(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
@@ -205,6 +336,75 @@ async def show_results(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     await query.edit_message_text(result_text, reply_markup=MAIN_KEYBOARD, parse_mode='Markdown')
 
+# Admin: Barcha o'quvchilar
+async def admin_show_users(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    
+    if not user_data:
+        text = "O'quvchilar yo'q."
+        await query.edit_message_text(text, reply_markup=ADMIN_MENU_KEYBOARD)
+        return
+    
+    users_text = "👥 **Barcha o'quvchilar:**\n\n"
+    for i, (uid, info) in enumerate(user_data.items(), 1):
+        phone = info.get('phone', 'Kiritilmagan')
+        school = info.get('school', 'Kiritilmagan')
+        cls = info.get('class', 'Kiritilmagan')
+        full_name = f"{info.get('first_name', '')} {info.get('last_name', '')}".strip() or 'Noma\'lum'
+        users_text += f"{i}. {full_name} (Sinf: {cls}, Maktab: {school}, Telefon: {phone})\n"
+    
+    await query.edit_message_text(users_text, reply_markup=ADMIN_MENU_KEYBOARD, parse_mode='Markdown')
+
+# Admin: Barcha natijalar
+async def admin_show_results(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    
+    if not results:
+        text = "Natijalar yo'q."
+        await query.edit_message_text(text, reply_markup=ADMIN_MENU_KEYBOARD)
+        return
+    
+    results_text = "📊 **Barcha natijalar:**\n\n"
+    for uid, user_results in results.items():
+        if not user_results:
+            continue
+        info = user_data.get(uid, {})
+        full_name = f"{info.get('first_name', '')} {info.get('last_name', '')}".strip() or 'Noma\'lum'
+        results_text += f"**{full_name} (ID: {uid}):**\n"
+        for res in user_results[-3:]:
+            percentage = (res['score'] / res['total']) * 100 if res['total'] > 0 else 0
+            results_text += f"   - {res['subject'].capitalize()}: {res['score']}/{res['total']} ({percentage:.1f}%) - {res['date'][:19].replace('T', ' ')}\n"
+        results_text += "\n"
+    
+    await query.edit_message_text(results_text, reply_markup=ADMIN_MENU_KEYBOARD, parse_mode='Markdown')
+
+# Admin: Barchaga xabar tayyorlash
+async def admin_broadcast_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    user_id = str(query.from_user.id)
+    
+    user_data[user_id]["waiting_for"] = "broadcast"
+    save_data(user_data, USER_DATA_FILE)
+    
+    text = "📢 Xabaringizni yuboring (matn yoki rasm + izoh bilan). Yuborganingizdan keyin barcha o'quvchilarga jo'natiladi."
+    keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("❌ Bekor qilish", callback_data="admin_cancel_broadcast")]])
+    await query.edit_message_text(text, reply_markup=keyboard, parse_mode='Markdown')
+
+# Admin: Broadcast bekor qilish
+async def admin_cancel_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    user_id = str(query.from_user.id)
+    
+    if user_data[user_id].get("waiting_for") == "broadcast":
+        user_data[user_id]["waiting_for"] = None
+        save_data(user_data, USER_DATA_FILE)
+    
+    await show_main_menu(update, context, user_id)
+
 # Testni boshlash
 async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -212,8 +412,8 @@ async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = str(query.from_user.id)
     user = user_data.get(user_id, {})
     
-    if not user.get("class") or not user.get("school"):
-        await query.edit_message_text("Iltimos, avval sinfingiz va maktabingizni tanlang.", reply_markup=MAIN_KEYBOARD)
+    if not user.get("class") or not user.get("school") or not user.get("phone") or not user.get("group_joined"):
+        await query.edit_message_text("Iltimos, avval sinfingiz, maktabingiz, telefon raqamingizni kiriting va guruhga a'zo bo'ling.", reply_markup=MAIN_KEYBOARD)
         return
 
     today = datetime.now().date()
@@ -361,7 +561,6 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     wrong_answers_explanations = ""
     for ans in user_test['answers']:
         if not ans['is_correct']:
-            # questions_pool dan savolning to'liq ma'lumotini topish
             original_question = next((q for q in questions_pool.get(subject, []) if q['id'] == ans['question_id']), None)
             if original_question:
                 wrong_answers_explanations += (
@@ -394,7 +593,6 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"🎯 Sizning darajangiz: *{level.capitalize()}*\n\n"
     )
     
-    # Noto'g'ri javoblar uchun yechimlar qo'shish
     if wrong_answers_explanations:
         result_text += "*Noto'g'ri javoblaringiz yechimlari:*\n"
         result_text += wrong_answers_explanations
@@ -414,7 +612,6 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if update.callback_query:
             await update.callback_query.message.reply_text(result_text, reply_markup=MAIN_KEYBOARD, parse_mode='Markdown')
             try:
-                # Oldingi savol xabarini o'chirish
                 await update.callback_query.message.delete()
             except BadRequest:
                 pass
@@ -437,8 +634,12 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await handle_class_selection(update, context)
     elif data.startswith('school_'):
         await handle_school_selection(update, context)
-    elif data.startswith('answer_'):
-        await handle_answer(update, context)
+    elif data == 'enter_phone' or data == 'share_phone':
+        await handle_phone_selection(update, context)
+    elif data == 'confirm_group':
+        await handle_group_confirmation(update, context)
+    elif data == 'teacher_info':
+        await show_teacher_info(update, context)
     elif data == 'courses_list':
         await show_courses_info(update, context)
     elif data.startswith('course_info_'):
@@ -449,6 +650,14 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await start_test(update, context)
     elif data == 'main_menu':
         await show_main_menu(update, context, str(query.from_user.id))
+    elif data == 'admin_users':
+        await admin_show_users(update, context)
+    elif data == 'admin_results':
+        await admin_show_results(update, context)
+    elif data == 'admin_broadcast':
+        await admin_broadcast_start(update, context)
+    elif data == 'admin_cancel_broadcast':
+        await admin_cancel_broadcast(update, context)
 
 # Kurslar haqida ma'lumot
 async def show_courses_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -458,7 +667,7 @@ async def show_courses_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [[InlineKeyboardButton(course['name'], callback_data=f"course_info_{key}")] for key, course in courses.items()]
     reply_markup = InlineKeyboardMarkup(keyboard + [[InlineKeyboardButton("🏠 Asosiy menyu", callback_data="main_menu")]])
     
-    text = "📚 Bizning kurslarimiz haqida ma'lumot olish uchun quyidagi tugmalardan birini tanlang:kurs o'qituvchisi tel raqami: +998507551023"
+    text = "📚 Bizning kurslarimiz haqida ma'lumot olish uchun quyidagi tugmalardan birini tanlang: kurs o'qituvchisi tel raqami: +998507551023"
     await query.edit_message_text(text, reply_markup=reply_markup, parse_mode='Markdown')
 
 # Kurs haqida batafsil ma'lumot
@@ -486,58 +695,98 @@ async def show_course_details(update: Update, context: ContextTypes.DEFAULT_TYPE
     reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Kurslar ro'yxati", callback_data="courses_list")]])
     await query.edit_message_text(course_text, reply_markup=reply_markup, parse_mode='Markdown')
 
-# Matnli xabarlarni qayta ishlash
+# Matnli xabarlarni qayta ishlash (telefon va broadcast uchun)
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = str(update.effective_user.id)
+    waiting_for = user_data[user_id].get("waiting_for")
+    
+    if waiting_for == "phone":
+        phone = update.message.text.strip()
+        if phone.startswith('+') and len(phone) >= 12:
+            user_data[user_id]["phone"] = phone
+            user_data[user_id]["waiting_for"] = None
+            save_data(user_data, USER_DATA_FILE)
+            await update.message.reply_text(
+                f"Raqam saqlandi: {phone}\n\nEndi guruhga a'zo bo'ling!",
+                parse_mode='Markdown'
+            )
+            await handle_group_join(update, context)
+        else:
+            await update.message.reply_text(
+                "Noto'g'ri format. Qayta yozing (masalan: +998901234567):",
+                reply_markup=PHONE_KEYBOARD,
+                parse_mode='Markdown'
+            )
+        return
+    
+    elif waiting_for == "broadcast" and user_id == ADMIN_ID:
+        message_text = update.message.text
+        sent_count = 0
+        failed_count = 0
+        for uid in user_data.keys():
+            if uid == user_id:
+                continue
+            try:
+                await context.bot.send_message(chat_id=uid, text=message_text, parse_mode='Markdown')
+                sent_count += 1
+            except Exception as e:
+                logger.error(f"Foydalanuvchiga xabar yuborishda xato {uid}: {e}")
+                failed_count += 1
+        
+        user_data[user_id]["waiting_for"] = None
+        save_data(user_data, USER_DATA_FILE)
+        
+        await update.message.reply_text(f"Xabar {sent_count} o'quvchiga yuborildi. Muvaffaqiyatsiz: {failed_count}")
+        await show_main_menu(update, context, user_id)
+        return
+    
     if "current_test" in user_data.get(user_id, {}):
         await context.bot.send_message(user_id, "Iltimos, testni tugatish uchun tugmalardan foydalaning.")
     else:
         await show_main_menu(update, context, user_id)
 
-# Yangi: /usersall komandasi (faqat admin uchun)
-async def users_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
+# Kontakt yuborilganda (Telegram raqami)
+async def handle_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = str(update.effective_user.id)
-    if user_id != ADMIN_ID:
-        await update.message.reply_text("Sizda bu buyruqni ishlatish huquqi yo'q.")
-        return
-    if not user_data:
-        await update.message.reply_text("Foydalanuvchilar ma'lumoti yo'q.")
-        return
-    users_text = json.dumps(user_data, ensure_ascii=False, indent=2)
-    await update.message.reply_text(f"Barcha foydalanuvchilar ma'lumoti:\n{users_text}")
+    if user_data[user_id].get("waiting_for") == "phone":
+        contact = update.message.contact
+        phone = contact.phone_number
+        user_data[user_id]["phone"] = phone
+        user_data[user_id]["waiting_for"] = None
+        save_data(user_data, USER_DATA_FILE)
+        await update.message.reply_text(
+            f"Raqam saqlandi: {phone}\n\nEndi guruhga a'zo bo'ling!",
+            reply_markup=ReplyKeyboardRemove(),
+            parse_mode='Markdown'
+        )
+        await handle_group_join(update, context)
 
-# Yangi: /usersallresult komandasi (faqat admin uchun)
-async def users_all_result(update: Update, context: ContextTypes.DEFAULT_TYPE):
+# Rasmli xabarlar uchun (broadcast uchun)
+async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = str(update.effective_user.id)
-    if user_id != ADMIN_ID:
-        await update.message.reply_text("Sizda bu buyruqni ishlatish huquqi yo'q.")
+    waiting_for = user_data[user_id].get("waiting_for")
+    
+    if waiting_for == "broadcast" and user_id == ADMIN_ID:
+        photo = update.message.photo[-1]
+        caption = update.message.caption or ""
+        sent_count = 0
+        failed_count = 0
+        for uid in user_data.keys():
+            if uid == user_id:
+                continue
+            try:
+                await context.bot.send_photo(chat_id=uid, photo=photo.file_id, caption=caption, parse_mode='Markdown')
+                sent_count += 1
+            except Exception as e:
+                logger.error(f"Foydalanuvchiga rasm yuborishda xato {uid}: {e}")
+                failed_count += 1
+        
+        user_data[user_id]["waiting_for"] = None
+        save_data(user_data, USER_DATA_FILE)
+        
+        await update.message.reply_text(f"Rasmli xabar {sent_count} o'quvchiga yuborildi. Muvaffaqiyatsiz: {failed_count}")
+        await show_main_menu(update, context, user_id)
         return
-    if not results:
-        await update.message.reply_text("Natijalar ma'lumoti yo'q.")
-        return
-    results_text = json.dumps(results, ensure_ascii=False, indent=2)
-    await update.message.reply_text(f"Barcha foydalanuvchilar natijalari:\n{results_text}")
-
-# Yangi: /message komandasi (faqat admin uchun, /message <text> formatida)
-async def send_message_to_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = str(update.effective_user.id)
-    if user_id != ADMIN_ID:
-        await update.message.reply_text("Sizda bu buyruqni ishlatish huquqi yo'q.")
-        return
-    if not context.args:
-        await update.message.reply_text("Iltimos, xabarni kiriting: /message <xabar matni>")
-        return
-    message_text = " ".join(context.args)
-    sent_count = 0
-    failed_count = 0
-    for uid in user_data.keys():
-        try:
-            await context.bot.send_message(chat_id=uid, text=message_text, parse_mode='Markdown')
-            sent_count += 1
-        except Exception as e:
-            logger.error(f"Foydalanuvchiga xabar yuborishda xato {uid}: {e}")
-            failed_count += 1
-    await update.message.reply_text(f"Xabar {sent_count} foydalanuvchiga yuborildi. Muvaffaqiyatsiz: {failed_count}")
 
 # Asosiy funksiya
 def main():
@@ -548,11 +797,10 @@ def main():
     application = Application.builder().token(BOT_TOKEN).build()
     
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("usersall", users_all))  # Yangi handler
-    application.add_handler(CommandHandler("usersallresult", users_all_result))  # Yangi handler
-    application.add_handler(CommandHandler("message", send_message_to_all))  # Yangi handler
     application.add_handler(CallbackQueryHandler(handle_callback))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    application.add_handler(MessageHandler(filters.PHOTO, handle_photo))
+    application.add_handler(MessageHandler(filters.CONTACT, handle_contact))
     
     application.run_polling()
 
