@@ -339,9 +339,12 @@ async def show_teacher_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     
     text = (
-        "👨‍🏫 **O'qituvchi haqida**\n\n"
+        "👨‍🏫 **O'zim haqimda**\n\n"
         "Salom! Men Shoxrux Ibrohimovman. Matematika bo'yicha tajribali o'qituvchiman.\n"
-        "10 yildan ortiq o'qituvchilik tajribam bor. O'quvchilarimni yuqori natijalarga erishishga yordam beraman.\n\n"
+        "8 yildan ortiq o'qituvchilik tajribam bor.Toshkent axborot texnologiyalari Universitetini tugatganman hozirda kombinatda Muhandis dasturchi bo'lib ishlayman.Matematikadan alimpistman Nurota tumanida 7-9 sinflar matematikadan alimpiadada birirnchi o'rinni olganman Navoiy 1-litseyda 2 kursda Navoiy shahrida 1-o'rin Navoiy viloyat bosiqichida 5-o'rinni olganman.\n\n"
+          "kURSLARIMNI asosan 0 dan boshlab o'taman Turk sifir matematika kabi kitoblar bor tarjima qilganman o'zi mshu kitoblardan oquvchilarga 0 dan bilim beraman bu kitoblar orqali qiynalmay unchalik miyaga nagruzka bermay fundamental matematikani puxta o'rganib olishingiz mumkin. O'rta darajaga kelsak bilimingiz fundamentalda yaxshi bo'lgach toplam 1996-2003 maktab darsliklari shu kitoblar o'tiladi bundan ham o'tiob olgach eng oxirida Puza geometriya Algebra, Skanavi kabi kuchli kitoblarda ishlaymiz. \n\n"
+          "NATIJALAR: 0 dan boshlab o'rganuvchilarga 2 yilda bemalol Milliy sertifikatga topshirish va yuqori natijalar olishgacha tayyorlayman bir yilda ham eplasa boladi bu 0 dan boshlasangiz ham o'zingizning olish qobiliyatingizga bog'liq kimdurlar bitta kitbni 4 oyda tugatib yana qayta ishlab chiqmasa bolmaydigan darajada esindan chiqarib yuboradi kimdur esa 7 oyda ishlab tugatib lekin mukammla tugatgan esidan mavzularni ishlash usullarini esidan chiqarib yubormagan boladi hullas shunaqa gaplar\n"
+          "Kursga qo'shilish uchun \n"
         "📞 Aloqa: +998507551023\n"
         "@Shoxrux_Ibrohimov"
     )
